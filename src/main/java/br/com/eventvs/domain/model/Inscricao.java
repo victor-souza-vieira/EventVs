@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -22,5 +23,7 @@ public class Inscricao {
     @OneToOne
     @JoinColumn(name = "evento_id")
     private Evento evento;
+
+    private LocalDateTime dataHora;
 
 }
