@@ -24,7 +24,7 @@ public class Participante {
     @Column(length = 60, nullable = false)
     private String email;
 
-    @Column(length = 60, nullable = true)
+    @Column(length = 60, nullable = false)
     private String senha;
 
 }
