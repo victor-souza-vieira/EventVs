@@ -1,14 +1,10 @@
 package br.com.eventvs.domain.model;
 
-import br.com.eventvs.domain.enums.CategoriaEvento;
 import br.com.eventvs.domain.enums.StatusEvento;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,16 +17,24 @@ public class Evento {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(length = 100, nullable = false)
     private String titulo;
 
+    @Column(length = 300, nullable = false)
     private String descricao;
 
     private LocalDateTime dataHoraInicio;
 
     private LocalDateTime dataHoraTermino;
 
-    private CategoriaEvento categoriaEvento;
+    @OneToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     private StatusEvento statusEvento;
+
+    @OneToOne
+    @JoinColumn(name = "produtor_id")
+    private Produtor produtor;
 
 }

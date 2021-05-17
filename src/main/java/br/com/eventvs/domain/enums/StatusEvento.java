@@ -6,6 +6,7 @@ public enum StatusEvento {
     INICIADO,
     PUBLICADO,
     FINALIZADO,
-    CANCELADO
+    CANCELADO,
+    CRIADO,
 
 }

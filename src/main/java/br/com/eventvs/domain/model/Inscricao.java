@@ -17,13 +17,16 @@ public class Inscricao {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "participante_id",nullable = false)
+    private Participante participante;
 
     @OneToOne
-    @JoinColumn(name = "evento_id")
+    @JoinColumn(name = "evento_id", nullable = false)
     private Evento evento;
 
+    @Column(nullable = false)
     private LocalDateTime dataHora;
+
+    private Boolean isCancelada;
 
 }
