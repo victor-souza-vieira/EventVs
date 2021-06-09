@@ -28,7 +28,7 @@ public class EventoRepositoryImpl implements EventoRepository {
 
     @Override
     public List<Evento> listar() {
-        return manager.createQuery("from Eventos", Evento.class).getResultList();
+        return manager.createQuery("from Evento", Evento.class).getResultList();
     }
 
     @Transactional
