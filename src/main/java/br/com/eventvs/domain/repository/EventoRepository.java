@@ -7,7 +7,7 @@ import java.util.List;
 public interface EventoRepository {
 
     Evento salvar(Evento evento);
-    Evento buscar(Long eventoId);
+    Evento buscar(Integer eventoId);
     List<Evento> listar();
     void remover(Evento evento);
 

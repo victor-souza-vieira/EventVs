@@ -15,26 +15,30 @@ public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private Integer id;
 
     @Column(length = 100, nullable = false)
-    private String titulo;
+    private String nome;
 
     @Column(length = 300, nullable = false)
     private String descricao;
 
     private LocalDateTime dataHoraInicio;
 
-    private LocalDateTime dataHoraTermino;
+    private LocalDateTime dataHoraFim;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     private StatusEvento statusEvento;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "produtor_id")
     private Produtor produtor;
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
+    private Endereco endereco;
 
 }

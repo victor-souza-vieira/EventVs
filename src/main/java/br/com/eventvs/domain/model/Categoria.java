@@ -13,7 +13,7 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private Integer id;
 
     @Column(length = 50, nullable = false)
     private String nome;

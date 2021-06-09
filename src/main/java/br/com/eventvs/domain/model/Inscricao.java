@@ -14,10 +14,10 @@ public class Inscricao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "participante_id",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "participante_id", nullable = false)
     private Participante participante;
 
     @OneToOne

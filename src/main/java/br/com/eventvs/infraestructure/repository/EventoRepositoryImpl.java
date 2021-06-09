@@ -22,7 +22,7 @@ public class EventoRepositoryImpl implements EventoRepository {
     }
 
     @Override
-    public Evento buscar(Long eventoId) {
+    public Evento buscar(Integer eventoId) {
         return manager.find(Evento.class, eventoId);
     }
 

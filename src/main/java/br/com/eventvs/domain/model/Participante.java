@@ -13,18 +13,10 @@ public class Participante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private Integer id;
 
-    @Column(length = 60, nullable = false)
-    private String nome;
-
-    @Column(length = 11, nullable = false)
-    private String cpf;
-
-    @Column(length = 60, nullable = false)
-    private String email;
-
-    @Column(length = 60, nullable = false)
-    private String senha;
+    @OneToOne
+    @JoinColumn(name = "pessoa_id", nullable = false)
+    private Pessoa pessoa;
 
 }

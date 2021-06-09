@@ -1,5 +1,6 @@
 package br.com.eventvs.domain.model;
 
+import br.com.eventvs.domain.enums.Situacao;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,18 +14,11 @@ public class Produtor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private Integer id;
 
-    @Column(length = 60, nullable = false)
-    private String nome;
+    @OneToOne
+    @JoinColumn(name = "pessoa_id", nullable = false)
+    private Pessoa pessoa;
 
-    @Column(length = 11, nullable = false)
-    private String cpf;
-
-    @Column(length = 60, nullable = false)
-    private String email;
-
-    @Column(length = 60, nullable = false)
-    private String senha;
-
+    private Situacao situacao;
 }
