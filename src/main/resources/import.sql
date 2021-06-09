@@ -1,0 +1,1 @@
+insert into categoria() values (null, "Palestra", "Simboliza um evento em formato de palestra");
