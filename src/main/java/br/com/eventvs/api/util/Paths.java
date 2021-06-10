@@ -12,7 +12,7 @@ public class Paths {
 
     /* Categorias */
     public static final String PATH_CATEGORIA = "/categorias";
-    public static final String PATH_BUSCAR_CATEGORIA_POR_NOME = PATH_CATEGORIA+"/nome";
+    public static final String PATH_BUSCAR_CATEGORIA_POR_NOME = "/nome";
 
 
 }
