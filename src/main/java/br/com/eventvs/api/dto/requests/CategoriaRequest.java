@@ -6,5 +6,6 @@ import lombok.Data;
 public class CategoriaRequest {
 
     private String nome;
+    private String descricao;
 
 }
