@@ -12,7 +12,7 @@ import java.util.List;
 public class CategoriaController {
 
     @Autowired
-    CategoriaRepository categoriaRepository;
+    private CategoriaRepository categoriaRepository;
 
     /**
      * Retorna todas as categorias

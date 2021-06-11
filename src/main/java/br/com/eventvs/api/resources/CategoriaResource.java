@@ -22,7 +22,7 @@ import static br.com.eventvs.api.util.Paths.PATH_CATEGORIA;
 public class CategoriaResource {
 
     @Autowired
-    CategoriaController categoriaController;
+    private CategoriaController categoriaController;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
