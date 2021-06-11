@@ -6,11 +6,7 @@ import br.com.eventvs.domain.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +20,11 @@ public class CategoriaResource {
     @Autowired
     private CategoriaController categoriaController;
 
+    /**
+     * Lista todas as categorias
+     *
+     * @return List<Categoria>
+     * */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Categoria> listarCategorias(){
@@ -47,6 +48,17 @@ public class CategoriaResource {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
+    }
+    /**
+     * Cadastra categoria
+     *
+     * @param categoriaRequest
+     * @return Categoria
+     * */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Categoria cadastrarCategoria(@RequestBody CategoriaRequest categoriaRequest){
+        return categoriaController.cadastrarCategoria(categoriaRequest);
     }
 
 }

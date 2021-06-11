@@ -33,4 +33,18 @@ public class CategoriaController {
         return categoriaRepository.findAllByNomeContains(categoriaRequest.getNome());
     }
 
+    /**
+     * Cadastra uma categoria
+     *
+     * @param categoriaRequest
+     * @return Categoria
+     * */
+    public Categoria cadastrarCategoria(CategoriaRequest categoriaRequest){
+        Categoria categoria = new Categoria();
+        categoria.setNome(categoriaRequest.getNome());
+        categoria.setDescricao(categoriaRequest.getDescricao());
+
+        return categoriaRepository.save(categoria);
+    }
+
 }
