@@ -1,6 +1,7 @@
 package br.com.eventvs.api.resources;
 
 import br.com.eventvs.api.dto.requests.CategoriaRequest;
+import br.com.eventvs.core.security.EventvsSecurity;
 import br.com.eventvs.domain.controller.CategoriaController;
 import br.com.eventvs.domain.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class CategoriaResource {
     @Autowired
     private CategoriaController categoriaController;
 
+    @Autowired
+    private EventvsSecurity eventvsSecurity;
+
     /**
      * Lista todas as categorias
      *
@@ -28,6 +32,7 @@ public class CategoriaResource {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Categoria> listarCategorias(){
+        String abc = eventvsSecurity.getPessoaEmail();
         return categoriaController.listarCategorias();
     }
 

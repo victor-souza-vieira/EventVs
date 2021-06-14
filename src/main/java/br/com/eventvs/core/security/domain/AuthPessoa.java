@@ -13,8 +13,13 @@ public class AuthPessoa extends User {
     @Setter
     private String nome;
 
+    @Getter
+    @Setter
+    private Integer id;
+
     public AuthPessoa(Pessoa pessoa){
         super(pessoa.getEmail(), pessoa.getSenha(), Collections.emptyList());
+        this.id = pessoa.getId();
         this.nome = pessoa.getNome();
     }
 
