@@ -1,4 +1,4 @@
-package br.com.eventvs.core.security;
+package br.com.eventvs.core.security.Authorization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                         .secret(passwordEncoder.encode("mobile"))
                         .authorizedGrantTypes("password")
                         .scopes("write", "read")
-                        .accessTokenValiditySeconds(12 * 60 * 60);
+                        .accessTokenValiditySeconds(12 * 60 * 60)
+                    .and()
+                        .withClient("checktoken")
+                            .secret(passwordEncoder.encode("check123"));
     }
 
     @Override
