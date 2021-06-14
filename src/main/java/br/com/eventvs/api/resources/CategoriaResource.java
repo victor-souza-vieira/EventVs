@@ -32,7 +32,7 @@ public class CategoriaResource {
 
 
     /**
-     * Busca categorias pelo nome ou parte dele
+     * Busca categorias que contenham o nome
      *
      * @param categoria
      * @return List<Categoria>
@@ -62,7 +62,7 @@ public class CategoriaResource {
     }
 
     /**
-     * Busca descricao pelo nome ou parte dele
+     * Busca categorias que contenham aquela descricao
      *
      * @param categoria
      * @return List<Categoria>
