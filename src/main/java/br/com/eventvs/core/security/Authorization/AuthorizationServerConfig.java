@@ -1,5 +1,7 @@
 package br.com.eventvs.core.security.Authorization;
 
+import com.nimbusds.jose.KeyLengthException;
+import com.nimbusds.jose.crypto.MACSigner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.CompositeTokenGranter;
-import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -26,6 +24,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -50,11 +49,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         security.checkTokenAccess("permitAll");
     }
 
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .reuseRefreshTokens(false);
+                .reuseRefreshTokens(false)
+                .accessTokenConverter(jwtAccessTokenConverter());
+
     }
+
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() throws KeyLengthException {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey("eventvs");
+        return jwtAccessTokenConverter;
+    }
+
 }

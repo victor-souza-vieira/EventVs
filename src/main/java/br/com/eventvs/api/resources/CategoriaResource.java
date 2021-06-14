@@ -14,6 +14,7 @@ import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_CATEGORIA)
+@CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
 public class CategoriaResource {
 
     @Autowired
