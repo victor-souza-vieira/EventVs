@@ -10,5 +10,6 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
     public List<Categoria> findAllByNomeContains(String nome);
-
+    public List<Categoria> findAllByDescricaoContains(String descricao);
 }
+

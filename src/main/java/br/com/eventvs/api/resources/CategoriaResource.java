@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static br.com.eventvs.api.util.Paths.PATH_BUSCAR_CATEGORIA_POR_NOME;
-import static br.com.eventvs.api.util.Paths.PATH_CATEGORIA;
+import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_CATEGORIA)
@@ -33,7 +32,7 @@ public class CategoriaResource {
 
 
     /**
-     * Busca categorias pelo nome ou parte dele
+     * Busca categorias que contenham o nome
      *
      * @param categoria
      * @return List<Categoria>
@@ -49,6 +48,7 @@ public class CategoriaResource {
 
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
     }
+
     /**
      * Cadastra categoria
      *
@@ -61,4 +61,20 @@ public class CategoriaResource {
         return categoriaController.cadastrarCategoria(categoriaRequest);
     }
 
+    /**
+     * Busca categorias que contenham aquela descricao
+     *
+     * @param categoria
+     * @return List<Categoria>
+     * */
+    @GetMapping
+    @RequestMapping(value = PATH_BUSCAR_CATEGORIA_POR_DESCRICAO)
+    public ResponseEntity<?> buscarCategoriaPorDescricao(@RequestBody CategoriaRequest categoria) {
+        List<Categoria> categorias = categoriaController.listarCategoriaPorDescricao(categoria);
+
+        if (categorias.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(categorias);
+    }
 }
