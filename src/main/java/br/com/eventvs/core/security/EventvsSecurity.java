@@ -13,12 +13,7 @@ public class EventvsSecurity {
     }
 
     public String getPessoaEmail(){
-        //Jwt jwt = (Jwt) getAuthentication().getDetails();
-        //Object a = getAuthentication();
-       // System.out.println(getAuthentication().getPrincipal());
-
         return (String) getAuthentication().getPrincipal();
-        //return jwt.getClaim("pessoa_id");
     }
 
 }

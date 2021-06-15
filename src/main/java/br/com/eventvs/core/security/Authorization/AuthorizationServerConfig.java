@@ -2,7 +2,6 @@ package br.com.eventvs.core.security.Authorization;
 
 import br.com.eventvs.core.security.domain.JwtCustomTokenEnhancer;
 import com.nimbusds.jose.KeyLengthException;
-import com.nimbusds.jose.crypto.MACSigner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +34,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.
-                inMemory()
+        clients
+                .inMemory()
                     .withClient("app-mobile")
                         .secret(passwordEncoder.encode("mobile"))
                         .authorizedGrantTypes("password", "refresh_token")
@@ -48,6 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                             .secret(passwordEncoder.encode("check123"));
     }
 
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.checkTokenAccess("permitAll");
@@ -58,7 +58,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         var enhancerChain = new TokenEnhancerChain();
         enhancerChain.setTokenEnhancers(Arrays.asList(new JwtCustomTokenEnhancer(), jwtAccessTokenConverter()));
-
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
