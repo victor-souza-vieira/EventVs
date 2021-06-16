@@ -26,17 +26,8 @@ public class InscricaoController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
-	/*public List<Inscricao> listarInscriçõesPeloUsuario(String email){
-		List<Inscricao> lista = null;
-		Optional<Pessoa> p  = pessoaRepository.findByEmail(email);
-		if(p.isPresent()) {
-			Participante participante = participanteRepository.findByPessoa(p.get());
-			lista = inscricaoRepository.findByParticipante(participante);
-		}        
-		return lista;
-    }*/
 	
-	public List<Inscricao> listarInscriçõesPeloUsuario(String email){
+	public List<Inscricao> listarInscricoesPeloUsuario(String email){
 		List<Inscricao> lista = null;
 		Optional<Participante> p  = participanteRepository.findByPessoaEmail(email);
 		if(p.isPresent()) {
@@ -45,11 +36,11 @@ public class InscricaoController {
 		return lista;
 	}
 	
-	public Inscricao visualizarInscricao(Integer inscricaoId, String email) {
+	public Optional <Inscricao> visualizarInscricao(Integer inscricaoId, String email) {
 		Optional <Inscricao> inscricao = inscricaoRepository.findById(inscricaoId);
 		if(inscricao.isPresent()) {
 			if(inscricao.get().getParticipante().getPessoa().getEmail().equals(email)) {
-				return inscricao.get();
+				return inscricao;
 			}
 		}
 		return null;

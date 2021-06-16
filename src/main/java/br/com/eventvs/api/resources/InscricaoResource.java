@@ -41,7 +41,7 @@ public class InscricaoResource {
 	/**
      * Busca uma inscrição
      * @param inscricaoId
-     * @return Inscricao
+     * @return InscricaoResponse
      * */
 	@GetMapping(value = PATH_BUSCAR_INSCRICAO_ID)
     @ResponseStatus(HttpStatus.OK)
@@ -56,13 +56,13 @@ public class InscricaoResource {
 	
 	/**
      * Lista as inscrições de um usuário
-     * @return List<Inscricao>
+     * @return List<InscricaoResponse>
      * */
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public List<InscricaoResponse> listarInscricao() {
 		String user = eventvsSecurity.getPessoaEmail();
-		List<Inscricao> inscricoes = inscricaoController.listarInscriçõesPeloUsuario(user);
+		List<Inscricao> inscricoes = inscricaoController.listarInscricoesPeloUsuario(user);
 		
 		return toCollectionModel(inscricoes);
 	}
