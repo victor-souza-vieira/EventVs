@@ -26,6 +26,12 @@ public class CadastrarContaParticipanteController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Método responsável pro cadastrar um participante no banco de dados
+     *
+     * @param participanteCadastroRequest
+     * @return participanteResponse
+     * */
     public ParticipanteResponse cadastrarParticipante(ParticipanteCadastroRequest participanteCadastroRequest){
         Optional<Pessoa> pessoaJaCadastrada = pessoaRepository.findByCpf(participanteCadastroRequest.getCpf());
         if(pessoaJaCadastrada.isPresent()){

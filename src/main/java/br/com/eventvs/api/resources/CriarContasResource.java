@@ -21,6 +21,13 @@ public class CriarContasResource {
     @Autowired
     private CadastrarContaParticipanteController cadastrarContaParticipanteController;
 
+    /**
+     * Responsável por receber e repassar a requisição para o CadastrarContaParticipanteController <br />
+     * para que seja cadastrada a conta de um novo usuário
+     *
+     * @param participanteCadastroRequest
+     * @return
+     * */
     @PostMapping(PATH_CRIAR_CONTA_PARTICIPANTE)
     public ResponseEntity<ParticipanteResponse> cadastrarParticipante(@RequestBody ParticipanteCadastroRequest participanteCadastroRequest){
         ParticipanteResponse response = cadastrarContaParticipanteController.cadastrarParticipante(participanteCadastroRequest);
