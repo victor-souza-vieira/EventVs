@@ -47,4 +47,14 @@ public class CategoriaController {
         return categoriaRepository.save(categoria);
     }
 
+    /**
+     * Retorna todas as categorias que possuem aquela descricao
+     *
+     * @param categoriaRequest
+     * @return List<Categoria>
+     * */
+    public List<Categoria> listarCategoriaPorDescricao(CategoriaRequest categoriaRequest){
+        return categoriaRepository.findAllByDescricaoContains(categoriaRequest.getDescricao());
+    }
+
 }
