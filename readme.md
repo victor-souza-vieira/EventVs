@@ -10,7 +10,7 @@ A seguir virão alguns pontos importante a respeito do desenvolvimento do projet
 1. É necessário possuir algum servidor local na máquina.
 1. É necessário iniciar o serviço apache e o mysql na máquina.
 1. É preciso baixar as dependências do projeto utilizando o Maven ``` mvn clean install ```
-1. Após esses passos basta executar a classe ``` EventvsApplication.java ```
+1. Após esses passos basta executar a classe ``` EventvsApplication.java ``` ou executar no terminal `mvn spring-boot:run`
 
 ### Recomendações
 1. Utilizar o servidor local ``` XAMP ```

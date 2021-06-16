@@ -15,4 +15,8 @@ public class Paths {
     public static final String PATH_BUSCAR_CATEGORIA_POR_NOME = "/nome";
     public static final String PATH_BUSCAR_CATEGORIA_POR_DESCRICAO = "/descricao";
 
+    /* Criar contas */
+    public static final String PATH_CRIAR_CONTA = "/criar";
+    public static final String PATH_CRIAR_CONTA_PARTICIPANTE = "/participante";
+
 }
