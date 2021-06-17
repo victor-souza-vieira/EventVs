@@ -20,6 +20,7 @@ public class Paths {
 
     /* Criar contas */
     public static final String PATH_CRIAR_CONTA = "/criar";
-    public static final String PATH_CRIAR_CONTA_PARTICIPANTE = "/participante";
+    public static final String PATH_CRIAR_CONTA_PARTICIPANTE = "/participantes";
+    public static final String PATH_CRIAR_CONTA_PRODUTOR = "/produtores";
 
 }
