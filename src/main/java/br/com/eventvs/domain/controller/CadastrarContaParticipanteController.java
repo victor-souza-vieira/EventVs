@@ -35,13 +35,13 @@ public class CadastrarContaParticipanteController {
     public ParticipanteResponse cadastrarParticipante(ParticipanteCadastroRequest participanteCadastroRequest){
         Optional<Pessoa> pessoaJaCadastrada = pessoaRepository.findByCpf(participanteCadastroRequest.getCpf());
         if(pessoaJaCadastrada.isPresent()){
-            log.warn("Já existe um participante cadastrado com este CPF: " + participanteCadastroRequest.getCpf());
+            log.warn("Já existe uma pessoa cadastrado com este CPF: " + participanteCadastroRequest.getCpf());
             return null;
         }
 
         pessoaJaCadastrada = pessoaRepository.findByEmail(participanteCadastroRequest.getEmail());
         if(pessoaJaCadastrada.isPresent()){
-            log.warn("Já existe um participante cadastrado com este EMAIL: " + participanteCadastroRequest.getEmail());
+            log.warn("Já existe uma pessoa cadastrado com este EMAIL: " + participanteCadastroRequest.getEmail());
             return null;
         }
 

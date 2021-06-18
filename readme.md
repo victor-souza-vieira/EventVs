@@ -59,7 +59,7 @@ o seguinte trecho: <br />
 
 ### Features
 
-- [ ] Criar categoria de evento.
+- [x] Criar categoria de evento.
 - [x] Listar todas as categorias de eventos.
 - [x] Buscar categorias de evento pelo nome.
 - [ ] Criar evento.
@@ -70,6 +70,23 @@ o seguinte trecho: <br />
 - [ ] Inscrever-se em um evento.
 - [ ] Cancelar inscrição num evento.
 - [ ] Listar participantes de um evento.
+- [x] Criar conta de participante.
+- [x] Criar conta de produtor.
+- [x] Login.
+
+### Endpoints prontos
+
+Função | Endpoint | Verbo | Statuscode
+--------- | ------ | ----- | ---------  
+Solicitar token de acesso  | /oauth/token | POST | 200 - 400 
+Cadastrar participante  | /criar/participantes | POST | 201 - 400
+Cadastrar produtor   | /criar/produtores | POST |201 - 400
+Cadastrar categoria | /categorias | POST | 201
+Listar categorias  | /categorias | GET | 200
+Buscar categoria que contenham um nome | /categorias/nome | GET | 200 - 404
+Buscar categoria pela descrição ou parte dela | /categorias/descricao | GET | 200 - 404
+Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 404
+Listar inscrições | /inscricoes | GET | 200 - 404
 
    
 
