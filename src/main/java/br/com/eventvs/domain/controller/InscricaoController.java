@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
@@ -14,7 +13,6 @@ import br.com.eventvs.api.dto.requests.InscricaoRequest;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Inscricao;
 import br.com.eventvs.domain.model.Participante;
-import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
 import br.com.eventvs.domain.repository.ParticipanteRepository;
@@ -50,19 +48,14 @@ public class InscricaoController {
 		
 		
 		//Checagem pra saber se a inscricao já existe
-		Optional <List<Inscricao>> inscricoes = inscricaoRepository.findByParticipante(participante);
-		if(inscricoes.isPresent()) {
-			List<Inscricao> lista = inscricoes.get();
-			for(int i=0; i< lista.size();i++) {
-				if(lista.get(i).getEvento().equals(evento)) {
-					throw new NegocioException("Participante já está inscrito nesse evento.");
-				}
-			}
+		Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante);
+		if(inscricao_existe.isPresent()) {
+			throw new NegocioException("Participante já está inscrito nesse evento.");
 		}
-		
 		Inscricao inscricao = new Inscricao();
 		inscricao.setParticipante(participante);
 		inscricao.setEvento(evento);
+		inscricao.setIsCancelada(false);
 		inscricao.setDataHora(LocalDateTime.now());
 		return inscricaoRepository.save(inscricao);		
 		

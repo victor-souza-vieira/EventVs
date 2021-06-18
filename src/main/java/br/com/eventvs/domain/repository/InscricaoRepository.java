@@ -14,4 +14,5 @@ import org.springframework.stereotype.Repository;
 public interface InscricaoRepository extends JpaRepository<Inscricao,Integer> {
 	public Optional <List<Inscricao>> findByParticipante(Participante participante);
 	public Optional <List<Inscricao>> findByEvento(Evento evento);
+	public Optional <Inscricao> findByEventoAndParticipante(Evento evento, Participante participante);
 }
