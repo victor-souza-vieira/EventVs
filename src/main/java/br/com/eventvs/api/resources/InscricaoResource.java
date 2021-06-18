@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.eventvs.api.dto.requests.CategoriaRequest;
 import br.com.eventvs.api.dto.requests.InscricaoRequest;
 import br.com.eventvs.api.dto.responses.InscricaoResponse;
 import br.com.eventvs.core.security.EventvsSecurity;
@@ -25,7 +23,6 @@ import javax.validation.Valid;
 import static br.com.eventvs.api.util.Paths.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
