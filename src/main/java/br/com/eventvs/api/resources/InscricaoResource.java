@@ -67,11 +67,8 @@ public class InscricaoResource {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<InscricaoResponse>> visualizarParticipantes(@PathVariable Integer eventoId) {
 		String user = eventvsSecurity.getPessoaEmail();
-		Optional<List<Inscricao>> inscricoes = inscricaoController.visualizarParticipantes(eventoId, user);
-		if(inscricoes.isPresent()) {
-			return ResponseEntity.ok(toCollectionModel(inscricoes.get()));
-		}
-		return ResponseEntity.notFound().build();
+		List<Inscricao> inscricoes = inscricaoController.visualizarParticipantes(eventoId, user);
+		return ResponseEntity.ok(toCollectionModel(inscricoes));
 	}
 	
 	/**
@@ -83,11 +80,8 @@ public class InscricaoResource {
     @ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<InscricaoResponse> visualizarInscricao(@PathVariable Integer inscricaoId) {
 		String user = eventvsSecurity.getPessoaEmail();
-		Optional<Inscricao> inscricao = inscricaoController.visualizarInscricao(inscricaoId, user);
-		if(inscricao.isPresent()) {
-			return ResponseEntity.ok(toModel(inscricao.get()));
-		}
-		return ResponseEntity.notFound().build();
+		Inscricao inscricao = inscricaoController.visualizarInscricao(inscricaoId, user);
+		return ResponseEntity.ok(toModel(inscricao));
 	}
 	
 	/**

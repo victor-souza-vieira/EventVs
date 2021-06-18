@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
+import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.api.dto.requests.InscricaoRequest;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Inscricao;
@@ -41,24 +43,31 @@ public class InscricaoController {
      * @return null
      * */
 	public Inscricao cadastrarInscricao(InscricaoRequest inscricaoRequest) {
-		Optional <Participante> participante = participanteRepository.findById(inscricaoRequest.getParticipante_id());
-		Optional <Evento> evento = eventoRepository.findById(inscricaoRequest.getEvento_id());
-		if(participante.isPresent() && evento.isPresent()) {
-			//Checagem pra saber se a inscricao já existe
-			List<Inscricao> inscricoes = inscricaoRepository.findByParticipante(participante.get());
-			for(int i =0; i< inscricoes.size();i++) {
-				if(inscricoes.get(i).getEvento().equals(evento.get())) {
-					return null;
+		Participante participante = participanteRepository.findById(inscricaoRequest.getParticipante_id())
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Participante não encontrado na base de dados."));
+		Evento evento = eventoRepository.findById(inscricaoRequest.getEvento_id())
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		
+		
+		//Checagem pra saber se a inscricao já existe
+		Optional <List<Inscricao>> inscricoes = inscricaoRepository.findByParticipante(participante);
+		if(inscricoes.isPresent()) {
+			List<Inscricao> lista = inscricoes.get();
+			for(int i=0; i< lista.size();i++) {
+				if(lista.get(i).getEvento().equals(evento)) {
+					throw new NegocioException("Participante já está inscrito nesse evento.");
 				}
 			}
-			
-			Inscricao inscricao = new Inscricao();
-			inscricao.setParticipante(participante.get());
-			inscricao.setEvento(evento.get());
-			inscricao.setDataHora(LocalDateTime.now());
-			return inscricaoRepository.save(inscricao);
 		}
-		return null;
+		
+		Inscricao inscricao = new Inscricao();
+		inscricao.setParticipante(participante);
+		inscricao.setEvento(evento);
+		inscricao.setDataHora(LocalDateTime.now());
+		return inscricaoRepository.save(inscricao);		
+		
+		
+			
 	}
 	
 	/*
@@ -67,11 +76,13 @@ public class InscricaoController {
 	 * @return List<Inscricao>
 	 */
 	public List<Inscricao> listarInscricoesPeloUsuario(String email){
-		List<Inscricao> lista = null;
+
 		Optional<Participante> p  = participanteRepository.findByPessoaEmail(email);
-		if(p.isPresent()) {
-			lista = inscricaoRepository.findByParticipante(p.get());
-		}        
+		if(p.isEmpty()) {
+			throw new EntidadeNaoEncontradaException("Participante não encontrado na base de dados.");
+		}   
+		List<Inscricao> lista = inscricaoRepository.findByParticipante(p.get())
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Participante não possui inscrições."));
 		return lista;
 	}
 	
@@ -81,14 +92,11 @@ public class InscricaoController {
 	 * @param String email
 	 * @return Optional <Inscricao>
 	 */
-	public Optional <Inscricao> visualizarInscricao(Integer inscricaoId, String email) {
-		Optional <Inscricao> inscricao = inscricaoRepository.findById(inscricaoId);
-		if(inscricao.isPresent()) {
-			if(inscricao.get().getParticipante().getPessoa().getEmail().equals(email)) {
-				return inscricao;
-			}else {
-				return inscricao.ofNullable(null);
-			}
+	public Inscricao visualizarInscricao(Integer inscricaoId, String email) {
+		 Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Inscrição não encontrada na base de dados."));
+		if(!inscricao.getParticipante().getPessoa().getEmail().equals(email)) {
+			throw new NegocioException("Essa Inscrição não pertence ao participante.");
 		}
 		return inscricao;
 	}
@@ -99,16 +107,13 @@ public class InscricaoController {
 	 * @param String email
 	 * @return Optional<List<Inscricao>>
 	 */
-	public Optional<List<Inscricao>> visualizarParticipantes(Integer eventoId, String email) {
-		Optional<Evento> evento = eventoRepository.findById(eventoId);
-		Optional <List<Inscricao>> inscricoes = null;
-		if(evento.isPresent()) {
-			Evento existente = evento.get();
-			inscricoes = Optional.ofNullable(inscricaoRepository.findByEvento(existente));
-			return inscricoes;
-		}		
-		return inscricoes.ofNullable(null);
-		
+	public List<Inscricao> visualizarParticipantes(Integer eventoId, String email) {
+		Evento evento = eventoRepository.findById(eventoId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		List<Inscricao> inscricoes = inscricaoRepository.findByEvento(evento)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não possui Participantes."));
+
+		return inscricoes;
 	}
 			
 	
