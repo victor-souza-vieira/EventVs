@@ -48,7 +48,7 @@ public class InscricaoResource {
 	public ResponseEntity<InscricaoResponse> visualizarInscricao(@PathVariable Integer inscricaoId) {
 		String user = eventvsSecurity.getPessoaEmail();
 		Optional<Inscricao> inscricao = inscricaoController.visualizarInscricao(inscricaoId, user);
-		if(!inscricao.isEmpty()) {
+		if(inscricao.isPresent()) {
 			return ResponseEntity.ok(toModel(inscricao.get()));
 		}
 		return ResponseEntity.notFound().build();

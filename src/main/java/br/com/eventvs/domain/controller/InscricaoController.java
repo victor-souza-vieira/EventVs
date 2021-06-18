@@ -41,9 +41,11 @@ public class InscricaoController {
 		if(inscricao.isPresent()) {
 			if(inscricao.get().getParticipante().getPessoa().getEmail().equals(email)) {
 				return inscricao;
+			}else {
+				return inscricao.ofNullable(null);
 			}
 		}
-		return null;
+		return inscricao;
 	}
 			
 	
