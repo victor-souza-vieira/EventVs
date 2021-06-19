@@ -20,9 +20,45 @@ public class Problema {
 	
 	@AllArgsConstructor
 	public static class Campo {
+		public Campo(String nome2, String mensagem2) {
+			// TODO Auto-generated constructor stub
+		}
 		@Getter @Setter private String nome;
 		@Getter @Setter private String mensagem;
 	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public OffsetDateTime getDataHora() {
+		return dataHora;
+	}
+
+	public void setDataHora(OffsetDateTime dataHora) {
+		this.dataHora = dataHora;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public List<Campo> getCampos() {
+		return campos;
+	}
+
+	public void setCampos(List<Campo> campos) {
+		this.campos = campos;
+	}
+	
 	
 	
 }

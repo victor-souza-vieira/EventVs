@@ -6,3 +6,4 @@ insert into pessoa() values (null, "00000000001", "participante@eventvs.com" ,"P
 
 insert into produtor() values(null, 0, 1);
 insert into participante() values(null, 2);
+
