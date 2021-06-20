@@ -24,6 +24,11 @@ public class EventoResource {
     @Autowired
     EventvsSecurity eventvsSecurity;
 
+    /**
+     * Retorna todos os eventos publicados.
+     *
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
     @GetMapping(value = PATH_EVENTOS_PUBLICADOS)
     @ResponseStatus(HttpStatus.OK)
     public List<EventoResponse> listarEventosPublicados(){
@@ -31,6 +36,12 @@ public class EventoResource {
         return buscarEventoController.listarTodosPublicados(email);
     }
 
+
+    /**
+     * Retorna todos os eventos, não publicados, de um produtor
+     *
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
     @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS)
     @ResponseStatus(HttpStatus.OK)
     public List<EventoResponse> listarEventosNaoPublicados(){
