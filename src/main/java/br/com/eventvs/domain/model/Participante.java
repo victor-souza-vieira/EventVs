@@ -18,5 +18,4 @@ public class Participante {
     @OneToOne
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
-
 }

@@ -1,25 +1,45 @@
 package br.com.eventvs.api.resources;
 
+
+import br.com.eventvs.api.dto.requests.EventoRequest;
 import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.core.security.EventvsSecurity;
 import br.com.eventvs.domain.controller.BuscarEventoController;
+import br.com.eventvs.domain.controller.GerenciarEventoController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static br.com.eventvs.api.util.Paths.*;
 
+
 @RestController
 @RequestMapping(value = PATH_EVENTO)
 public class EventoResource {
+
+
+	@Autowired
+	private GerenciarEventoController gerenciarEventoControle;
+
 
     @Autowired
     private BuscarEventoController buscarEventoController;
 
     @Autowired
     private EventvsSecurity eventvsSecurity;
+
+	@PostMapping
+	public ResponseEntity<EventoResponse> criarEvento(@RequestBody EventoRequest eventoRequest) {
+		String email = eventvsSecurity.getPessoaEmail();
+
+		EventoResponse eventoResponse = gerenciarEventoControle.criarEvento(eventoRequest, email);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventoResponse);
+
+	}
 
     /**
      * Retorna todos os eventos publicados.
