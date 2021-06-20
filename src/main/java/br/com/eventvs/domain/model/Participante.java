@@ -18,23 +18,4 @@ public class Participante {
     @OneToOne
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-
-    
-    
 }
