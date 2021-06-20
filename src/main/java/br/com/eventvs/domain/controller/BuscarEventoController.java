@@ -5,9 +5,11 @@ import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.enums.StatusEvento;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
+import br.com.eventvs.domain.model.Categoria;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
+import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.PessoaRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
@@ -21,13 +23,13 @@ import java.util.List;
 public class BuscarEventoController {
 
     @Autowired
-    EventoRepository eventoRepository;
+    private EventoRepository eventoRepository;
 
     @Autowired
-    PessoaRepository pessoaRepository;
+    private CategoriaRepository categoriaRepository;
 
     @Autowired
-    ProdutorRepository produtorRepository;
+    private LoginController loginController;
 
     /**
      * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado).
@@ -38,10 +40,7 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicados(String email){
-        pessoaRepository.findByEmail(email)
-                .orElseThrow(()->{
-                    throw new EntidadeNaoEncontradaException("Usuário não está logado no sistema.");
-                });
+        loginController.login(email);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
 
@@ -60,21 +59,44 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicados(String email){
-        Pessoa pessoa = pessoaRepository.findByEmail(email)
-                .orElseThrow(()->{
-                    throw new EntidadeNaoEncontradaException("Usuário não está logado no sistema.");
-                });
+        Pessoa pessoa = loginController.login(email);
 
-        Produtor produtor = produtorRepository.findByPessoaId(pessoa.getId())
-                .orElseThrow(() -> {
-                    throw new NegocioException("O usuário não é um produtor de eventos.");
-                });
+        Produtor produtor = loginController.login(pessoa);
 
-
-        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.CRIADO, produtor).get();
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.CRIADO, produtor);
 
         if (eventos.isEmpty()){
             throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado.");
+        }
+
+        return preencherResponse(eventos);
+    }
+
+    /**
+     * Método responsável por retornar todos os eventos Não Publicados ({@link StatusEvento} criado)
+     * de um determinado Produtor.
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param categoriaId
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosNaoPublicadosPorCategoria(String email, Integer categoriaId){
+        Pessoa pessoa = loginController.login(email);
+
+        Produtor produtor = loginController.login(pessoa);
+
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> {
+                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id: " + categoriaId);
+                });
+
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.CRIADO, categoria, produtor);
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado com a categoria informada.");
         }
 
         return preencherResponse(eventos);

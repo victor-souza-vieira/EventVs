@@ -1,6 +1,7 @@
 package br.com.eventvs.domain.repository;
 
 import br.com.eventvs.domain.enums.StatusEvento;
+import br.com.eventvs.domain.model.Categoria;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Produtor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,6 @@ import java.util.Optional;
 public interface EventoRepository extends JpaRepository<Evento, Integer> {
 
     List<Evento> findAllByStatusEvento(StatusEvento statusEvento);
-    Optional<List<Evento>> findAllByStatusEventoAndProdutor(StatusEvento statusEvento, Produtor produtor);
+    List<Evento> findAllByStatusEventoAndProdutor(StatusEvento statusEvento, Produtor produtor);
+    List<Evento> findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento statusEvento, Categoria categoria, Produtor produtor);
 }

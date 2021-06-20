@@ -5,10 +5,7 @@ import br.com.eventvs.core.security.EventvsSecurity;
 import br.com.eventvs.domain.controller.BuscarEventoController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,10 +16,10 @@ import static br.com.eventvs.api.util.Paths.*;
 public class EventoResource {
 
     @Autowired
-    BuscarEventoController buscarEventoController;
+    private BuscarEventoController buscarEventoController;
 
     @Autowired
-    EventvsSecurity eventvsSecurity;
+    private EventvsSecurity eventvsSecurity;
 
     /**
      * Retorna todos os eventos publicados.
@@ -47,5 +44,19 @@ public class EventoResource {
     public List<EventoResponse> listarEventosNaoPublicados(){
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosNaoPublicados(email);
+    }
+
+
+    /**
+     * Retorna todos os eventos de uma determinada categoria, não publicados por produtor.
+     *
+     * @param categoriaId
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS_POR_CATEGORIA)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosNaoPublicadosPorCategoria(@PathVariable Integer categoriaId){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosNaoPublicadosPorCategoria(email, categoriaId);
     }
 }

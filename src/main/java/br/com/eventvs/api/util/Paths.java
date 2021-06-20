@@ -27,5 +27,6 @@ public class Paths {
     public static final String PATH_EVENTO = "/eventos";
     public static final String PATH_EVENTOS_PUBLICADOS = "/publicados";
     public static final String PATH_EVENTOS_NAO_PUBLICADOS = "/nao-publicados";
+    public static final String PATH_EVENTOS_NAO_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_NAO_PUBLICADOS+"/categoria/{categoriaId}";
 
 }
