@@ -2,7 +2,6 @@ package br.com.eventvs.api.util;
 
 public class Paths {
 
-    public static final String PATH_EVENTO = "/eventos";
     public static final String PATH_ADMINISTRADOR = "/administradores";
     public static final String PATH_ENDERECO = "/enderecos";
     public static final String PATH_INSCRICAO = "/inscricoes";
@@ -23,5 +22,11 @@ public class Paths {
     public static final String PATH_CRIAR_CONTA = "/criar";
     public static final String PATH_CRIAR_CONTA_PARTICIPANTE = "/participantes";
     public static final String PATH_CRIAR_CONTA_PRODUTOR = "/produtores";
+
+    /* Eventos */
+    public static final String PATH_EVENTO = "/eventos";
+    public static final String PATH_EVENTOS_PUBLICADOS = "/publicados";
+    public static final String PATH_EVENTOS_NAO_PUBLICADOS = "/nao-publicados";
+    public static final String PATH_EVENTOS_NAO_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_NAO_PUBLICADOS+"/categoria/{categoriaId}";
 
 }

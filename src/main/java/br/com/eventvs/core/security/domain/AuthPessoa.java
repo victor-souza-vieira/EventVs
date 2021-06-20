@@ -17,28 +17,14 @@ public class AuthPessoa extends User {
     @Setter
     private Integer id;
 
-    public AuthPessoa(Pessoa pessoa){
+    @Getter
+    @Setter
+    private String role;
+
+    public AuthPessoa(Pessoa pessoa, String role){
         super(pessoa.getEmail(), pessoa.getSenha(), Collections.emptyList());
         this.id = pessoa.getId();
         this.nome = pessoa.getNome();
+        this.role = role;
     }
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-    
-    
-
 }

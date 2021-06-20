@@ -32,7 +32,6 @@ public class CategoriaResource {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Categoria> listarCategorias(){
-        String abc = eventvsSecurity.getPessoaEmail();
         return categoriaController.listarCategorias();
     }
 
