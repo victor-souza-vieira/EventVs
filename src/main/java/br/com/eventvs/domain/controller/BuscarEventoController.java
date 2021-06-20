@@ -11,8 +11,6 @@ import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
-import br.com.eventvs.domain.repository.PessoaRepository;
-import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,15 +86,36 @@ public class BuscarEventoController {
 
         Produtor produtor = loginController.login(pessoa);
 
-        Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> {
-                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id: " + categoriaId);
-                });
+        Categoria categoria = buscarCategoria(categoriaId);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.CRIADO, categoria, produtor);
 
         if (eventos.isEmpty()){
             throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado com a categoria informada.");
+        }
+
+        return preencherResponse(eventos);
+    }
+
+    /**
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} criado)
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param categoriaId
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
+        loginController.login(email);
+
+        Categoria categoria = buscarCategoria(categoriaId);
+
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Não existem eventos publicados para a categoria informada.");
         }
 
         return preencherResponse(eventos);
@@ -123,6 +142,13 @@ public class BuscarEventoController {
             eventoResponses.add(eventoResponse);
         });
         return eventoResponses;
+    }
+
+    private Categoria buscarCategoria(Integer categoriaId) {
+        return categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> {
+                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id: "+ categoriaId);
+                });
     }
 
 
