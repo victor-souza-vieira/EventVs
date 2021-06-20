@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static br.com.eventvs.api.util.Paths.PATH_EVENTO;
-import static br.com.eventvs.api.util.Paths.PATH_EVENTOS_PUBLICADOS;
+import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_EVENTO)
@@ -30,5 +29,12 @@ public class EventoResource {
     public List<EventoResponse> listarEventosPublicados(){
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosPublicados(email);
+    }
+
+    @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosNaoPublicados(){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosNaoPublicados(email);
     }
 }
