@@ -6,3 +6,7 @@ insert into pessoa() values (null, "00000000001", "participante@eventvs.com" ,"P
 
 insert into produtor() values(null, 0, 1);
 insert into participante() values(null, 2);
+
+insert into endereco() values(null, '49100000', 'Rosa Elze', 'São Cristóvão', 'Sergipe', 'Av. Marechal Rondom', 'S/N');
+
+insert into evento() values(null, '2021/06/30', '2021/06/19', 'Evento voltado para o curso de engenharia de software 2', 'Evento Eng2', 2, 2, 1, 1);
