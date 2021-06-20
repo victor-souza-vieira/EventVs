@@ -87,6 +87,13 @@ Buscar categoria que contenham um nome | /categorias/nome | GET | 200 - 404
 Buscar categoria pela descrição ou parte dela | /categorias/descricao | GET | 200 - 404
 Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 404
 Listar inscrições | /inscricoes | GET | 200 - 404
+Cadastrar Evento | /eventos | POST | 201 - 400
+Listar todos eventos publicados | /eventos/publicados | GET | 200
+Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400 -404
+Listar todos eventos não publicados por categoria | /eventos/nao-publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
+
+
+
 
    
 
