@@ -40,5 +40,4 @@ public class Evento {
     @OneToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
-
 }

@@ -33,5 +33,4 @@ public class Endereco {
 
     @Column(length = 9, nullable = false)
     private String CEP;
-
 }
