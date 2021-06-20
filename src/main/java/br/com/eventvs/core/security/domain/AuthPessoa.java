@@ -17,10 +17,15 @@ public class AuthPessoa extends User {
     @Setter
     private Integer id;
 
-    public AuthPessoa(Pessoa pessoa){
+    @Getter
+    @Setter
+    private String role;
+
+    public AuthPessoa(Pessoa pessoa, String role){
         super(pessoa.getEmail(), pessoa.getSenha(), Collections.emptyList());
         this.id = pessoa.getId();
         this.nome = pessoa.getNome();
+        this.role = role;
     }
 
 }
