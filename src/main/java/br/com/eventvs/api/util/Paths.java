@@ -13,7 +13,7 @@ public class Paths {
     public static final String PATH_CATEGORIA = "/categorias";
     public static final String PATH_BUSCAR_CATEGORIA_POR_NOME = "/nome";
     public static final String PATH_BUSCAR_CATEGORIA_POR_DESCRICAO = "/descricao";
-    
+
     /* Inscrições */
     public static final String PATH_BUSCAR_INSCRICAO_ID = "/{inscricaoId}";
     public static final String PATH_VIZUALIZAR_PARTICIPANTES = "/eventos/{eventoId}";
@@ -26,7 +26,8 @@ public class Paths {
     /* Eventos */
     public static final String PATH_EVENTO = "/eventos";
     public static final String PATH_EVENTOS_PUBLICADOS = "/publicados";
+    public static final String PATH_EVENTOS_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_PUBLICADOS + "/categoria/{categoriaId}";
     public static final String PATH_EVENTOS_NAO_PUBLICADOS = "/nao-publicados";
-    public static final String PATH_EVENTOS_NAO_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_NAO_PUBLICADOS+"/categoria/{categoriaId}";
-
+    public static final String PATH_EVENTOS_NAO_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_NAO_PUBLICADOS + "/categoria/{categoriaId}";
+    public static final String PATH_EVENTOS_PUBLICADOS_POR_NOME = PATH_EVENTOS_PUBLICADOS + "/categoria/{categoriaId}";
 }

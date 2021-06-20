@@ -79,4 +79,18 @@ public class EventoResource {
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosNaoPublicadosPorCategoria(email, categoriaId);
     }
+
+
+    /**
+     * Retorna todos os eventos de uma determinada categoria, publicados por produtor.
+     *
+     * @param categoriaId
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_PUBLICADOS_POR_CATEGORIA)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosPublicadosPorCategoria(@PathVariable Integer categoriaId){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosPublicadosPorCategoria(email, categoriaId);
+    }
 }
