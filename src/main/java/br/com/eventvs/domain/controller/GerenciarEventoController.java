@@ -1,6 +1,7 @@
 package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
+import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,39 @@ public class GerenciarEventoController {
 		evento.setEndereco(endereco);
 
 		evento = eventoRepository.save(evento);
+		return preencherResponse(evento);
+	}
+	
+	public EventoResponse editarEvento(Integer eventoID, EventoRequest eventoRequest, String email) {
+		Pessoa pessoa = loginController.login(email);
+		Produtor produtor = loginController.login(pessoa);
+		
+		Evento evento = eventoRepository.findById(eventoID)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		
+		if(!evento.getProdutor().equals(produtor)) {
+			throw new NegocioException("Esse evento não pertence ao produtor "+produtor.getPessoa().getNome());
+		}
+		if(!eventoRequest.getNome().isEmpty()) {
+			evento.setNome(eventoRequest.getNome());
+		}
+		if(!(eventoRequest.getDataHoraFim() == null)) {
+			evento.setDataHoraFim(eventoRequest.getDataHoraFim());
+		}
+		if(!(eventoRequest.getDataHoraInicio() == null)) {
+			evento.setDataHoraInicio(eventoRequest.getDataHoraInicio());
+		}
+		if(!eventoRequest.getDescricao().isEmpty()) {
+			evento.setDescricao(eventoRequest.getDescricao());
+		}
+		if(!(eventoRequest.getEndereco() == null)) {
+			evento.setEndereco(eventoRequest.getEndereco());
+		}
+		if(!(eventoRequest.getStatusEvento() == null)) {
+			evento.setStatusEvento(eventoRequest.getStatusEvento());
+		}
+		
+		
 		return preencherResponse(evento);
 	}
 

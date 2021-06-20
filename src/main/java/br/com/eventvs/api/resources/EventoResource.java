@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import static br.com.eventvs.api.util.Paths.*;
 
 
@@ -30,9 +32,15 @@ public class EventoResource {
 
     @Autowired
     private EventvsSecurity eventvsSecurity;
-
+    
+    /*
+     * Cadastra um evento
+     * @param EventoRequest
+     * @return ResponseEntity<EventoResponse>
+     */
 	@PostMapping
-	public ResponseEntity<EventoResponse> criarEvento(@RequestBody EventoRequest eventoRequest) {
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<EventoResponse> criarEvento(@Valid @RequestBody EventoRequest eventoRequest) {
 		String email = eventvsSecurity.getPessoaEmail();
 
 		EventoResponse eventoResponse = gerenciarEventoControle.criarEvento(eventoRequest, email);
@@ -40,6 +48,17 @@ public class EventoResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(eventoResponse);
 
 	}
+	
+	@PatchMapping(value = PATH_EVENTO_ID)
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<EventoResponse> editarEvento(@PathVariable Integer eventoId, @RequestBody EventoRequest eventoRequest) {
+		String email = eventvsSecurity.getPessoaEmail();
+		
+		EventoResponse eventoResponse = gerenciarEventoControle.editarEvento(eventoId, eventoRequest, email);
+		
+		return ResponseEntity.ok(eventoResponse);
+	}
+	
 
     /**
      * Retorna todos os eventos publicados.
