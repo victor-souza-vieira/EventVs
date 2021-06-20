@@ -27,5 +27,4 @@ public class AuthPessoa extends User {
         this.nome = pessoa.getNome();
         this.role = role;
     }
-
 }

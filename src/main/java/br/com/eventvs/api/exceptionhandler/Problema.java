@@ -23,6 +23,4 @@ public class Problema {
 		@Getter @Setter private String nome;
 		@Getter @Setter private String mensagem;
 	}
-	
-	
 }

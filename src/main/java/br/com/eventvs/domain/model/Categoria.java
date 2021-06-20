@@ -20,5 +20,4 @@ public class Categoria {
 
     @Column(length = 100, nullable = false)
     private String descricao;
-
 }
