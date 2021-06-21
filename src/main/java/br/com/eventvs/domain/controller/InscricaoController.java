@@ -127,6 +127,8 @@ public class InscricaoController {
 	 * @param email
 	 */
 	public void cancelarInscricao(Integer inscricaoId, String email) {
+		Pessoa pessoa = loginController.login(email);
+		
 		Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Inscrição não encontrada na base de dados."));
 		if(!inscricao.getParticipante().getPessoa().getEmail().equals(email)) {
