@@ -17,4 +17,5 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
     List<Evento> findAllByStatusEventoAndProdutor(StatusEvento statusEvento, Produtor produtor);
     List<Evento> findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento statusEvento, Categoria categoria, Produtor produtor);
     List<Evento> findAllByStatusEventoAndCategoria(StatusEvento statusEvento, Categoria categoria);
+    List<Evento> findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento statusEvento, String nome, Produtor produtor);
 }

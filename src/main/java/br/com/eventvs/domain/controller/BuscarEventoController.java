@@ -1,6 +1,7 @@
 package br.com.eventvs.domain.controller;
 
 
+import br.com.eventvs.api.dto.requests.EventoRequest;
 import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.enums.StatusEvento;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
@@ -72,7 +73,7 @@ public class BuscarEventoController {
 
     /**
      * Método responsável por retornar todos os eventos Não Publicados ({@link StatusEvento} criado)
-     * de um determinado Produtor.
+     * que sejam de uma determinada categoria de um determinado Produtor.
      *
      * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
      * @throws NegocioException {@link NegocioException}
@@ -92,6 +93,31 @@ public class BuscarEventoController {
 
         if (eventos.isEmpty()){
             throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado com a categoria informada.");
+        }
+
+        return preencherResponse(eventos);
+    }
+
+    /**
+     * Método responsável por retornar todos os eventos Não Publicados ({@link StatusEvento} criado) por nome
+     * de um determinado Produtor.
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param eventoRequest EventoRequest
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosNaoPublicadosPorNome(String email, EventoRequest eventoRequest){
+        Pessoa pessoa = loginController.login(email);
+
+        Produtor produtor = loginController.login(pessoa);
+
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.CRIADO, eventoRequest.getNome(), produtor);
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com este nome.");
         }
 
         return preencherResponse(eventos);

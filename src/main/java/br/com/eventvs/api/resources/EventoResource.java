@@ -33,9 +33,9 @@ public class EventoResource {
     @Autowired
     private EventvsSecurity eventvsSecurity;
     
-    /*
+    /**
      * Cadastra um evento
-     * @param EventoRequest
+     * @param eventoRequest EventoRequest
      * @return ResponseEntity<EventoResponse>
      */
 	@PostMapping
@@ -49,10 +49,10 @@ public class EventoResource {
 
 	}
 	
-	/*
+	/**
 	 * Edita um Evento
-	 * @param Integer eventoId
-	 * @param EventoRequest eventoRequest
+	 * @param eventoId Integer
+	 * @param eventoRequest EventoRequest
 	 * @return ResponseEntity<EventoResponse>
 	 */
 	@PatchMapping(value = PATH_EVENTO_ID)
@@ -103,6 +103,19 @@ public class EventoResource {
     public List<EventoResponse> listarEventosNaoPublicadosPorCategoria(@PathVariable Integer categoriaId){
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosNaoPublicadosPorCategoria(email, categoriaId);
+    }
+
+    /**
+     * Retorna todos os eventos de uma determinada categoria, não publicados por produtor.
+     *
+     * @param eventoRequest EventoRequest
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS_POR_NOME)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosNaoPublicadosPorNome(@RequestBody EventoRequest eventoRequest){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosNaoPublicadosPorNome(email, eventoRequest);
     }
 
 
