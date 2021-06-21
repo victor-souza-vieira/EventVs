@@ -111,6 +111,10 @@ public class InscricaoController {
 		
 		Evento evento = eventoRepository.findById(eventoId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		
+		if(!evento.getProdutor().equals(produtor)) {
+			throw new NegocioException("Esse evento não pertence ao produtor "+produtor.getPessoa().getNome());
+		}
 		List<Inscricao> inscricoes = inscricaoRepository.findByEvento(evento)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não possui Participantes."));
 
