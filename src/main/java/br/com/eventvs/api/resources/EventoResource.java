@@ -6,6 +6,7 @@ import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.core.security.EventvsSecurity;
 import br.com.eventvs.domain.controller.BuscarEventoController;
 import br.com.eventvs.domain.controller.GerenciarEventoController;
+import br.com.eventvs.domain.model.Evento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class EventoResource {
 		return ResponseEntity.ok(eventoResponse);
 	}
 	
-	/***
+	/**
 	 * Cancela um evento
 	 * @param eventoId
 	 * @return ResponseEntity
@@ -77,6 +78,18 @@ public class EventoResource {
 		gerenciarEventoControle.cancelarEvento(eventoId, email);
 		return ResponseEntity.ok().build();
 	}
+
+	/**
+     * Publica um evento
+     * @param eventoId
+     * @return EventoResponse
+     * */
+	@PatchMapping(value = PATH_EVENTO_ID_PUBLICAR)
+    @ResponseStatus(HttpStatus.OK)
+	public EventoResponse publicarEvento(@PathVariable Integer eventoId){
+        String email = eventvsSecurity.getPessoaEmail();
+        return gerenciarEventoControle.publicarEvento(email, eventoId);
+    }
 
     /**
      * Retorna todos os eventos publicados.

@@ -38,10 +38,10 @@ public class GerenciarEventoController {
 	private InscricaoRepository inscricaoRepository;
 
 
-	/*
+	/**
 	 * Cria um evento no banco de Dados
-	 * @param EventoRequest eventoRequest
-	 * @param String email - Usuario deve ser um produtor
+	 * @param eventoRequest EventoRequest
+	 * @param email String - Usuario deve ser um produtor
 	 * @return EventoRespons
 	 */
 	public EventoResponse criarEvento(EventoRequest eventoRequest, String email){
@@ -65,11 +65,12 @@ public class GerenciarEventoController {
 		return preencherResponse(evento);
 	}
 	
-	/*
+	/**
 	 * Edita um Evento no banco de dados
-	 * @param Integer eventoID
-	 * @param EventoRequest eventoRequest - Request com os campos a serem alterados
-	 * @param String email - Usuario deve ser o criador do evento e um produtor
+	 * @param eventoID Integer
+	 * @param eventoRequest - EventoRequest Request com os campos a serem alterados
+	 * @param email - String Usuario deve ser o criador do evento e um produtor
+	 * @return EventoResponse
 	 */
 	public EventoResponse editarEvento(Integer eventoID, EventoRequest eventoRequest, String email) {
 		Pessoa pessoa = loginController.login(email);
@@ -109,7 +110,7 @@ public class GerenciarEventoController {
 		return preencherResponse(evento);
 	}
 	
-	/***
+	/**
 	 * Muda o status de um evento para Cancelado
 	 * @param eventoID
 	 * @param email
@@ -138,11 +139,52 @@ public class GerenciarEventoController {
 		}
 		evento = eventoRepository.save(evento);
 	}
-	
 
-	/*
+	/**
+	 * Método responsável por publicar um evento
+	 *
+	 * @param email
+	 * @param eventoId
+	 * @return EventoResponse
+	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+	 * */
+	public EventoResponse publicarEvento(String email, Integer eventoId){
+		Pessoa pessoa = loginController.login(email);
+		Produtor produtor = loginController.login(pessoa);
+
+		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
+			throw new EntidadeNaoEncontradaException("O produtor não possui evento com id " + eventoId + " a ser publicado.");
+		});
+
+		validaSePodeSerPublicado(evento);
+
+		evento.setStatusEvento(StatusEvento.PUBLICADO);
+		eventoRepository.save(evento);
+
+		return preencherResponse(evento);
+	}
+
+	/**
+	 * Valida se um evento pode ser publicado
+	 *
+	 * @param evento
+	 * @return
+	 * @throws NegocioException {@link NegocioException}
+	 * */
+	private void validaSePodeSerPublicado(Evento evento) {
+		if(evento.getDataHoraFim() == null || evento.getDataHoraInicio() == null){
+			throw new NegocioException("É necessário que o evento possua data de inicio e de fim para ser publicado.");
+		}
+
+		if(evento.getNome() == null){
+			throw new NegocioException("É necessário que o evento possua um nome.");
+		}
+	}
+
+
+	/**
 	 * Preenche os dados de um evento em um EventoResponse
-	 * @param Evento evento
+	 * @param evento Evento
 	 * @return EventoResponse
 	 */
 	private EventoResponse preencherResponse(Evento evento) {
