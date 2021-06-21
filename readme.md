@@ -67,7 +67,7 @@ o seguinte trecho: <br />
 - [x] Listar todas as categorias de eventos.
 - [x] Buscar categorias de evento pelo nome.
 - [x] Criar evento.
-- [ ] Publicar evento.
+- [x] Publicar evento.
 - [x] Editar evento.
 - [ ] Excluir evento não publicado.
 - [x] Cancelar evento.
