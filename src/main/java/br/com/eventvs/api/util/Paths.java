@@ -17,6 +17,7 @@ public class Paths {
     /* Inscrições */
     public static final String PATH_BUSCAR_INSCRICAO_ID = "/{inscricaoId}";
     public static final String PATH_VIZUALIZAR_PARTICIPANTES = "/eventos/{eventoId}";
+    public static final String PATH_INSCRICAO_ID_CANCELAR = "/{inscricaoId}/cancelar";
 
     /* Criar contas */
     public static final String PATH_CRIAR_CONTA = "/criar";

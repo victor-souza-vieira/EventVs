@@ -74,7 +74,7 @@ o seguinte trecho: <br />
 - [x] Inscrever-se em um evento.
 - [x] Visualizar inscrição
 - [x] Visualizar inscrições de um participante
-- [ ] Cancelar inscrição num evento.
+- [x] Cancelar inscrição num evento.
 - [x] Listar participantes de um evento.
 - [x] Criar conta de participante.
 - [x] Criar conta de produtor.
@@ -91,7 +91,8 @@ Cadastrar categoria | /categorias | POST | 201
 Listar categorias  | /categorias | GET | 200
 Buscar categoria que contenham um nome | /categorias/nome | GET | 200 - 404
 Buscar categoria pela descrição ou parte dela | /categorias/descricao | GET | 200 - 404
-Cadastrar inscricao | /inscricoes | POST | 200 - 400 - 404
+Cadastrar inscrição | /inscricoes | POST | 200 - 400 - 404
+Cancelar inscrição | /inscricoes/{inscricaoId}/cancelar | PATCH | 200 - 400 - 404
 Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 400 - 404
 Listar inscrições do Usuário | /inscricoes | GET | 200 - 404
 Visualizar inscrições de um Evento | /inscricoes/eventos/{eventoId} | GET | 200 - 400 - 404

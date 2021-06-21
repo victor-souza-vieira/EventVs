@@ -120,6 +120,22 @@ public class InscricaoController {
 
 		return inscricoes;
 	}
+	
+	/***
+	 * Cancela uma inscricao no banco de dados
+	 * @param inscricaoId
+	 * @param email
+	 */
+	public void cancelarInscricao(Integer inscricaoId, String email) {
+		Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Inscrição não encontrada na base de dados."));
+		if(!inscricao.getParticipante().getPessoa().getEmail().equals(email)) {
+			throw new NegocioException("Essa Inscrição não pertence ao participante.");
+		}
+		
+		inscricao.setIsCancelada(true);
+		inscricaoRepository.save(inscricao);
+	}
 			
 	
 }
