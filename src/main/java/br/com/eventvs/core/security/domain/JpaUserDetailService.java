@@ -37,13 +37,22 @@ public class JpaUserDetailService implements UserDetailsService {
         String role = "";
 
         Participante participante = participanteRepository.findByPessoa(pessoa);
-        if (participante != null) role = "PARTICIPANTE";
-        Produtor produtor = produtorRepository.findByPessoaAndSituacao(pessoa, Situacao.ACEITO).orElseThrow(()->{throw new UsernameNotFoundException("Sua conta ainda não foi aprovada por um administrador.");});
-        if (produtor != null) role = "PRODUTOR";
+        if (participante != null){
+            role = "PARTICIPANTE";
+            return new AuthPessoa(pessoa, role);
+        }
+
         Administrador administrador = administradorRepository.findByPessoa(pessoa);
-        if (administrador != null) role = "ADMINISTRADOR";
+        if (administrador != null){
+            role = "ADMINISTRADOR";
+            return new AuthPessoa(pessoa, role);
+        }
 
-
+        Produtor produtor = produtorRepository.findByPessoaAndSituacao(pessoa, Situacao.ACEITO).orElseThrow(()->{throw new UsernameNotFoundException("Sua conta ainda não foi aprovada por um administrador.");});
+        if (produtor != null) {
+            role = "PRODUTOR";
+            return new AuthPessoa(pessoa, role);
+        }
         return new AuthPessoa(pessoa, role);
     }
 }
