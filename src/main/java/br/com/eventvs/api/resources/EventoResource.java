@@ -74,11 +74,8 @@ public class EventoResource {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity cancelarEvento(@PathVariable Integer eventoId) {
 		String email = eventvsSecurity.getPessoaEmail();
-		boolean status = gerenciarEventoControle.cancelarEvento(eventoId, email);
-		if(status) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.badRequest().build();
+		gerenciarEventoControle.cancelarEvento(eventoId, email);
+		return ResponseEntity.ok().build();
 	}
 
     /**
