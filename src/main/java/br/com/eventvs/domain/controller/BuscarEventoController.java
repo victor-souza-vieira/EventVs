@@ -147,6 +147,31 @@ public class BuscarEventoController {
     }
 
     /**
+     * Método responsável por retornar todos os eventos Não Publicados ({@link StatusEvento} criado) por nome
+     * de um determinado Produtor.
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param eventoRequest EventoRequest
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosNaoPublicadosEntreDatas(String email, EventoRequest eventoRequest){
+        Pessoa pessoa = loginController.login(email);
+
+        Produtor produtor = loginController.login(pessoa);
+
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetweenAndProdutor(StatusEvento.CRIADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim() ,produtor);
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com entre estas datas.");
+        }
+
+        return preencherResponse(eventos);
+    }
+
+    /**
      * Método responsável por preencher um EventoResponse
      * @param eventos List
      * @return List of EventoResponse

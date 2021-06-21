@@ -130,6 +130,19 @@ public class EventoResource {
         return buscarEventoController.listarTodosNaoPublicadosPorNome(email, eventoRequest);
     }
 
+    /**
+     * Retorna todos os eventos de uma determinada categoria, não publicados por produtor.
+     *
+     * @param eventoRequest EventoRequest
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS_ENTRE_DATAS)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosNaoPublicadosEntreDatas(@RequestBody EventoRequest eventoRequest){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosNaoPublicadosEntreDatas(email, eventoRequest);
+    }
+
 
     /**
      * Retorna todos os eventos de uma determinada categoria, publicados por produtor.
