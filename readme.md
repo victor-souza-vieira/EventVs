@@ -20,17 +20,21 @@ Apesar das recomendações, fique a vontade para utilizar o servidor local e IDE
 
 ### Estrutura do código
 
-No pacote ```domain``` ficam todos os arquivos responsáveis pelas regras de domínio do negócio. <br /> 
+No pacote ```domain``` ficam todos os arquivos responsáveis pelas regras de domínio do negócio. <br />
 O pacote ``` domain/model``` contém as classes de entidade. <br />
 O pacote ``` domain/repository``` contém todos os acessos ao banco de dados. <br />
 O pacote ``` domain/controller``` contém todos os controladores que orquestram os casos de uso. <br />
 O pacote ``` domain/enums``` contém todos os enumeradores que serão utilizados no domínio. <br />
+O pacote ``` domain/exception``` contém as classes que representam os Tipos de erros encontrados no domínio. <br />
 No pacote ``` api``` ficam todos os arquivos responsáveis pelo funcionamento da API. <br />
 O pacote ``` api/resources``` contém todos os arquivos responsáveis pelo atendimento às requisições. HTTP <br />
 O pacote ``` api/util``` contém todos os arquivos que terão alguma utilidade, mas não se encaixam em outro pacote. <br />
 O pacote ``` api/dto``` contém todos os DTO's (Data Transfers Objects) utilizados para comunicação. <br />
 O pacote ``` api/dto/requests``` contém todos os DTO's especializados nas ***requests***.  <br />
 O pactote ``` api/dto/responses``` contém todos os DTO'S especializados nas ***responses***. <br />
+O pactote ``` api/exceptionhandler``` contém as classes que lidam com o tratamento de exceções encontrados na camada de domínio. <br />
+
+
 
 
 ### Fluxo de desenvolvimento
@@ -66,8 +70,10 @@ o seguinte trecho: <br />
 - [ ] Publicar evento.
 - [x] Editar evento.
 - [ ] Excluir evento não publicado.
-- [ ] Cancelar evento.
+- [x] Cancelar evento.
 - [x] Inscrever-se em um evento.
+- [x] Visualizar inscrição
+- [x] Visualizar inscrições de um participante
 - [ ] Cancelar inscrição num evento.
 - [x] Listar participantes de um evento.
 - [x] Criar conta de participante.
@@ -78,27 +84,21 @@ o seguinte trecho: <br />
 
 Função | Endpoint | Verbo | Statuscode
 --------- | ------ | ----- | ---------  
-Solicitar token de acesso  | /oauth/token | POST | 200 - 400 
+Solicitar token de acesso  | /oauth/token | POST | 200 - 400
 Cadastrar participante  | /criar/participantes | POST | 201 - 400
 Cadastrar produtor   | /criar/produtores | POST |201 - 400
 Cadastrar categoria | /categorias | POST | 201
 Listar categorias  | /categorias | GET | 200
 Buscar categoria que contenham um nome | /categorias/nome | GET | 200 - 404
 Buscar categoria pela descrição ou parte dela | /categorias/descricao | GET | 200 - 404
-Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 404
-Listar inscrições | /inscricoes | GET | 200 - 404
+Cadastrar inscricao | /inscricoes | POST | 200 - 400 - 404
+Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 400 - 404
+Listar inscrições do Usuário | /inscricoes | GET | 200 - 404
+Visualizar inscrições de um Evento | /inscricoes/eventos/{eventoId} | GET | 200 - 400 - 404
 Cadastrar Evento | /eventos | POST | 201 - 400
+Editar Evento | /eventos/{eventoId} | PATCH | 200 - 400 - 404
+Cancelar Evento | /eventos/{eventoId}/cancelar | PATCH | 200 - 400 - 404
 Listar todos eventos publicados | /eventos/publicados | GET | 200
 Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400 -404
 Listar todos eventos não publicados por categoria | /eventos/nao-publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
 Listar todos eventos não publicados por nome | /eventos/nao-publicados/nome | GET | 200 - 400 - 404
-
-
-
-
-   
-
-
-
-
-

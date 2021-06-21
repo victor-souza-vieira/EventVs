@@ -13,6 +13,8 @@ import br.com.eventvs.api.dto.requests.InscricaoRequest;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Inscricao;
 import br.com.eventvs.domain.model.Participante;
+import br.com.eventvs.domain.model.Pessoa;
+import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
 import br.com.eventvs.domain.repository.ParticipanteRepository;
@@ -32,6 +34,9 @@ public class InscricaoController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private LoginController loginController;
 	
 	/**
      * Cadastra uma inscricao
@@ -101,8 +106,15 @@ public class InscricaoController {
 	 * @return Optional<List<Inscricao>>
 	 */
 	public List<Inscricao> visualizarParticipantes(Integer eventoId, String email) {
+		Pessoa pessoa = loginController.login(email);
+		Produtor produtor = loginController.login(pessoa);
+		
 		Evento evento = eventoRepository.findById(eventoId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		
+		if(!evento.getProdutor().equals(produtor)) {
+			throw new NegocioException("Esse evento não pertence ao produtor "+produtor.getPessoa().getNome());
+		}
 		List<Inscricao> inscricoes = inscricaoRepository.findByEvento(evento)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não possui Participantes."));
 
