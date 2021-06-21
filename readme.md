@@ -96,6 +96,7 @@ Buscar inscrição | /inscricoes/{inscricaoId} | GET | 200 - 400 - 404
 Listar inscrições do Usuário | /inscricoes | GET | 200 - 404
 Visualizar inscrições de um Evento | /inscricoes/eventos/{eventoId} | GET | 200 - 400 - 404
 Cadastrar Evento | /eventos | POST | 201 - 400
+Editar Evento | /eventos/{eventoId} | 200 - 400 - 404
 Cancelar Evento | /eventos/{eventoId}/cancelar | PATCH | 200 - 400 - 404
 Listar todos eventos publicados | /eventos/publicados | GET | 200
 Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400 -404
