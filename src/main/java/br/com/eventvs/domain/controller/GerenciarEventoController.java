@@ -5,12 +5,17 @@ import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.eventvs.api.dto.requests.EventoRequest;
 import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.repository.EventoRepository;
+import br.com.eventvs.domain.repository.InscricaoRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,6 +33,9 @@ public class GerenciarEventoController {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private InscricaoRepository inscricaoRepository;
 
 
 	/*
@@ -97,9 +105,40 @@ public class GerenciarEventoController {
 			evento.setStatusEvento(eventoRequest.getStatusEvento());
 		}
 		
-		
+		evento = eventoRepository.save(evento);
 		return preencherResponse(evento);
 	}
+	
+	/***
+	 * Muda o status de um evento para Cancelado
+	 * @param eventoID
+	 * @param email
+	 * @return boolean
+	 */
+	public void cancelarEvento(Integer eventoID, String email) {
+		Pessoa pessoa = loginController.login(email);
+		Produtor produtor = loginController.login(pessoa);
+		
+		Evento evento = eventoRepository.findById(eventoID)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
+		
+		//Checagem de Regras de Negocio
+		if(!evento.getProdutor().equals(produtor)) {
+			throw new NegocioException("Esse evento não pertence ao produtor "+produtor.getPessoa().getNome());
+		}
+		if(!evento.getStatusEvento().equals(StatusEvento.PUBLICADO)) {
+			throw new NegocioException("Não é permitido cancelar um evento Não Publicado");
+		}
+		evento.setStatusEvento(StatusEvento.CANCELADO);
+		Optional<List<Inscricao>> inscricoes = inscricaoRepository.findByEvento(evento);
+		if(inscricoes.isPresent()) {
+			inscricoes.get().forEach((inscricao)-> {
+				inscricao.setIsCancelada(true);
+			});
+		}
+		evento = eventoRepository.save(evento);
+	}
+	
 
 	/*
 	 * Preenche os dados de um evento em um EventoResponse
