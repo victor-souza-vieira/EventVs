@@ -115,7 +115,7 @@ public class GerenciarEventoController {
 	 * @param email
 	 * @return boolean
 	 */
-	public boolean cancelarEvento(Integer eventoID, String email) {
+	public void cancelarEvento(Integer eventoID, String email) {
 		Pessoa pessoa = loginController.login(email);
 		Produtor produtor = loginController.login(pessoa);
 		
@@ -137,7 +137,6 @@ public class GerenciarEventoController {
 			});
 		}
 		evento = eventoRepository.save(evento);
-		return true;
 	}
 	
 
