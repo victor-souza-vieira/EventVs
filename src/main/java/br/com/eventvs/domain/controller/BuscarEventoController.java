@@ -33,7 +33,6 @@ public class BuscarEventoController {
     /**
      * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado).
      *
-     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
      * @param email String
      * @return List of EventoResponse
      *
@@ -42,6 +41,30 @@ public class BuscarEventoController {
         loginController.login(email);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
+
+        return preencherResponse(eventos);
+    }
+
+    /**
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} criado)
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param categoriaId
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
+        loginController.login(email);
+
+        Categoria categoria = buscarCategoria(categoriaId);
+
+        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Não existem eventos publicados para a categoria informada.");
+        }
 
         return preencherResponse(eventos);
     }
@@ -118,30 +141,6 @@ public class BuscarEventoController {
 
         if (eventos.isEmpty()){
             throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com este nome.");
-        }
-
-        return preencherResponse(eventos);
-    }
-
-    /**
-     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} criado)
-     *
-     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
-     * @throws NegocioException {@link NegocioException}
-     * @param email String
-     * @param categoriaId
-     * @return List of EventoResponse
-     *
-     * */
-    public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
-        loginController.login(email);
-
-        Categoria categoria = buscarCategoria(categoriaId);
-
-        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados para a categoria informada.");
         }
 
         return preencherResponse(eventos);
