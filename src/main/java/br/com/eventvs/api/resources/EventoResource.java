@@ -49,6 +49,12 @@ public class EventoResource {
 
 	}
 	
+	/*
+	 * Edita um Evento
+	 * @param Integer eventoId
+	 * @param EventoRequest eventoRequest
+	 * @return ResponseEntity<EventoResponse>
+	 */
 	@PatchMapping(value = PATH_EVENTO_ID)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<EventoResponse> editarEvento(@PathVariable Integer eventoId, @RequestBody EventoRequest eventoRequest) {
