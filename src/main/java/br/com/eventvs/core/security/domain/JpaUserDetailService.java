@@ -1,5 +1,6 @@
 package br.com.eventvs.core.security.domain;
 
+import br.com.eventvs.domain.enums.Situacao;
 import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Participante;
 import br.com.eventvs.domain.model.Pessoa;
@@ -13,8 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class JpaUserDetailService implements UserDetailsService {
@@ -33,21 +32,18 @@ public class JpaUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Pessoa> pessoa = pessoaRepository.findByEmail(email);
-        if(!pessoa.isPresent()){
-            throw new UsernameNotFoundException("Pessoa não encontrada com email informado");
-        }
+        Pessoa pessoa = pessoaRepository.findByEmail(email).orElseThrow(() -> {throw new UsernameNotFoundException("E-mail ou senha incorreto.");});
 
         String role = "";
 
-        Participante participante = participanteRepository.findByPessoa(pessoa.get());
+        Participante participante = participanteRepository.findByPessoa(pessoa);
         if (participante != null) role = "PARTICIPANTE";
-        Produtor produtor = produtorRepository.findByPessoa(pessoa.get());
+        Produtor produtor = produtorRepository.findByPessoaAndSituacao(pessoa, Situacao.ACEITO).orElseThrow(()->{throw new UsernameNotFoundException("Sua conta ainda não foi aprovada por um administrador.");});
         if (produtor != null) role = "PRODUTOR";
-        Administrador administrador = administradorRepository.findByPessoa(pessoa.get());
+        Administrador administrador = administradorRepository.findByPessoa(pessoa);
         if (administrador != null) role = "ADMINISTRADOR";
 
 
-        return new AuthPessoa(pessoa.get(), role);
+        return new AuthPessoa(pessoa, role);
     }
 }

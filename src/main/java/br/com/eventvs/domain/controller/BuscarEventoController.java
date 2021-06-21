@@ -144,10 +144,17 @@ public class BuscarEventoController {
         return eventoResponses;
     }
 
+    /**
+     * Buscar uma categoria pelo id caso não encontre lança uma {@link NegocioException}
+     *
+     * @param categoriaId Integer
+     * @return Categoria
+     * @throws NegocioException
+     * */
     private Categoria buscarCategoria(Integer categoriaId) {
         return categoriaRepository.findById(categoriaId)
                 .orElseThrow(() -> {
-                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id: "+ categoriaId);
+                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id "+ categoriaId);
                 });
     }
 
