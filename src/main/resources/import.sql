@@ -17,7 +17,7 @@ insert into participante() values(null, 5);
 insert into participante() values(null, 6);
 insert into participante() values(null, 7);
 
-insert into pessoa() values (null, "00000000008", "admin@eventvs.com" ,"Participante4", "$2y$12$v4nbKBU7V5Vz.0yYymbfm.TUvmgXNtMPIdpLtdVRsksPZlCAX/K4G");
+insert into pessoa() values (null, "00000000008", "admin@eventvs.com" ,"Administrador O Brabo", "$2y$12$v4nbKBU7V5Vz.0yYymbfm.TUvmgXNtMPIdpLtdVRsksPZlCAX/K4G");
 insert into administrador() values(null, 8);
 
 insert into endereco() values(null, '49100000', 'Rosa Elze', 'São Cristóvão', 'Sergipe', 'Av. Marechal Rondom', 'S/N');
