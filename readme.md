@@ -62,14 +62,14 @@ o seguinte trecho: <br />
 - [x] Criar categoria de evento.
 - [x] Listar todas as categorias de eventos.
 - [x] Buscar categorias de evento pelo nome.
-- [ ] Criar evento.
+- [x] Criar evento.
 - [ ] Publicar evento.
-- [ ] Editar evento.
+- [x] Editar evento.
 - [ ] Excluir evento não publicado.
 - [ ] Cancelar evento.
-- [ ] Inscrever-se em um evento.
+- [x] Inscrever-se em um evento.
 - [ ] Cancelar inscrição num evento.
-- [ ] Listar participantes de um evento.
+- [x] Listar participantes de um evento.
 - [x] Criar conta de participante.
 - [x] Criar conta de produtor.
 - [x] Login.
@@ -91,6 +91,7 @@ Cadastrar Evento | /eventos | POST | 201 - 400
 Listar todos eventos publicados | /eventos/publicados | GET | 200
 Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400 -404
 Listar todos eventos não publicados por categoria | /eventos/nao-publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
+Listar todos eventos não publicados por nome | /eventos/nao-publicados/nome | GET | 200 - 400 - 404
 
 
 
