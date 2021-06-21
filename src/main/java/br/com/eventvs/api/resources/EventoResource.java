@@ -65,6 +65,21 @@ public class EventoResource {
 		return ResponseEntity.ok(eventoResponse);
 	}
 	
+	/***
+	 * Cancela um evento
+	 * @param eventoId
+	 * @return ResponseEntity
+	 */
+	@PatchMapping(value = PATH_EVENTO_ID_CANCELAR)
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity cancelarEvento(@PathVariable Integer eventoId) {
+		String email = eventvsSecurity.getPessoaEmail();
+		boolean status = gerenciarEventoControle.cancelarEvento(eventoId, email);
+		if(status) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.badRequest().build();
+	}
 
     /**
      * Retorna todos os eventos publicados.
