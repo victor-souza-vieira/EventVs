@@ -92,6 +92,18 @@ public class EventoResource {
     }
 
     /**
+     * Excluir evento criado
+     * @param eventoId
+     * @return EventoResponse
+     * */
+	@PatchMapping(value = PATH_EVENTOS_ID_EXCLUIR)
+    @ResponseStatus(HttpStatus.OK)
+	public void excluirEvento(@PathVariable Integer eventoId){
+        String email = eventvsSecurity.getPessoaEmail();
+        gerenciarEventoControle.excluirEvento(email, eventoId);
+    }
+
+    /**
      * Retorna todos os eventos publicados.
      *
      * @return List of EventoResponse {@link EventoResponse}
@@ -168,5 +180,31 @@ public class EventoResource {
     public List<EventoResponse> listarEventosPublicadosPorCategoria(@PathVariable Integer categoriaId){
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosPublicadosPorCategoria(email, categoriaId);
+    }
+
+    /**
+     * Retorna todos os eventos por nome.
+     *
+     * @param eventoRequest
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_PUBLICADOS_POR_NOME)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosPublicadosPorNome(@RequestBody EventoRequest eventoRequest){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosPublicadosPorNome(email, eventoRequest);
+    }
+
+    /**
+     * Retorna todos os eventos entre um intervalo de datas.
+     *
+     * @param eventoRequest
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_PUBLICADOS_ENTRE_DATAS)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosPublicadosEntreDatas(@RequestBody EventoRequest eventoRequest){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosPublicadosEntreDatas(email, eventoRequest);
     }
 }
