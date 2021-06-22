@@ -12,6 +12,8 @@ import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
+import br.com.eventvs.domain.repository.ParticipanteRepository;
+import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,10 @@ public class BuscarEventoController {
 
     @Autowired
     private LoginController loginController;
+
+    @Autowired
+    private ProdutorRepository produtorRepository;
+
 
     /**
      * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado).
@@ -141,6 +147,35 @@ public class BuscarEventoController {
 
         if (eventos.isEmpty()){
             throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com este nome.");
+        }
+
+        return preencherResponse(eventos);
+    }
+
+    /**
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado) por nome.
+     *
+     * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+     * @throws NegocioException {@link NegocioException}
+     * @param email String
+     * @param eventoRequest EventoRequest
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosPublicadosPorNome(String email, EventoRequest eventoRequest){
+        Pessoa pessoa = loginController.login(email);
+
+        Produtor produtor = produtorRepository.findByPessoa(pessoa);
+
+        List<Evento> eventos;
+        if (produtor != null){
+            eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.PUBLICADO, eventoRequest.getNome(), produtor);
+        }else {
+            eventos = eventoRepository.findAllByStatusEventoAndNomeContains(StatusEvento.PUBLICADO, eventoRequest.getNome());
+        }
+
+        if (eventos.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Não existem eventos publicados que contenham este nome.");
         }
 
         return preencherResponse(eventos);

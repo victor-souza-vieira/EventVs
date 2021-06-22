@@ -169,4 +169,17 @@ public class EventoResource {
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosPublicadosPorCategoria(email, categoriaId);
     }
+
+    /**
+     * Retorna todos os eventos por nome.
+     *
+     * @param eventoRequest
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_PUBLICADOS_POR_NOME)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosPublicadosPorNome(@RequestBody EventoRequest eventoRequest){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosPublicadosPorNome(email, eventoRequest);
+    }
 }
