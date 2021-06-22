@@ -165,6 +165,25 @@ public class GerenciarEventoController {
 	}
 
 	/**
+	 * Método responsável por excluir evento criado
+	 *
+	 * @param email
+	 * @param eventoId
+	 * @return EventoResponse
+	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
+	 * */
+	public void excluirEvento(String email, Integer eventoId){
+		Pessoa pessoa = loginController.login(email);
+		Produtor produtor = loginController.login(pessoa);
+
+		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
+			throw new NegocioException("O evento não pertence a este produtor.");
+		});
+
+		eventoRepository.delete(evento);
+	}
+
+	/**
 	 * Valida se um evento pode ser publicado
 	 *
 	 * @param evento
