@@ -28,5 +28,3 @@ insert into evento() values(null, '2021/06/30', '2021/06/19', 'Palestra do Erick
 
 insert into inscricao() values(null, '2021/06/15', 0, 1, 1);
 insert into inscricao() values(null, '2021/06/15', 0, 1, 2);
-insert into inscricao() values(null, '2021/06/15', 0, 2, 3);
-insert into inscricao() values(null, '2021/06/15', 0, 2, 4);

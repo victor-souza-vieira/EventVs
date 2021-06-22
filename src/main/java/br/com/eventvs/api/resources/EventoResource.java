@@ -92,6 +92,18 @@ public class EventoResource {
     }
 
     /**
+     * Excluir evento criado
+     * @param eventoId
+     * @return EventoResponse
+     * */
+	@PatchMapping(value = PATH_EVENTOS_ID_EXCLUIR)
+    @ResponseStatus(HttpStatus.OK)
+	public void excluirEvento(@PathVariable Integer eventoId){
+        String email = eventvsSecurity.getPessoaEmail();
+        gerenciarEventoControle.excluirEvento(email, eventoId);
+    }
+
+    /**
      * Retorna todos os eventos publicados.
      *
      * @return List of EventoResponse {@link EventoResponse}
