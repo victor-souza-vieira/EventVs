@@ -36,4 +36,6 @@ public class Paths {
     public static final String PATH_EVENTOS_NAO_PUBLICADOS_POR_NOME = PATH_EVENTOS_NAO_PUBLICADOS + "/nome";
     public static final String PATH_EVENTOS_NAO_PUBLICADOS_ENTRE_DATAS = PATH_EVENTOS_NAO_PUBLICADOS + "/entre-datas";
     public static final String PATH_EVENTOS_PUBLICADOS_POR_NOME = PATH_EVENTOS_PUBLICADOS + "/nome";
+    public static final String PATH_EVENTOS_PUBLICADOS_ENTRE_DATAS = PATH_EVENTOS_PUBLICADOS + "/entre-datas";
+
 }
