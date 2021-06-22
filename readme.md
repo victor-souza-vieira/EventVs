@@ -69,7 +69,7 @@ o seguinte trecho: <br />
 - [x] Criar evento.
 - [x] Publicar evento.
 - [x] Editar evento.
-- [ ] Excluir evento não publicado.
+- [x] Excluir evento não publicado.
 - [x] Cancelar evento.
 - [x] Inscrever-se em um evento.
 - [x] Visualizar inscrição
