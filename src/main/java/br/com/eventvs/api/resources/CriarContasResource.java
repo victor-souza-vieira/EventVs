@@ -4,7 +4,7 @@ import br.com.eventvs.api.dto.requests.PessoaCadastroRequest;
 import br.com.eventvs.api.dto.responses.ParticipanteResponse;
 import br.com.eventvs.api.dto.responses.ProdutorResponse;
 import br.com.eventvs.domain.controller.CadastrarContaParticipanteController;
-import br.com.eventvs.domain.controller.CadastrarContaProdutorController;
+import br.com.eventvs.domain.controller.GerenciarContaProdutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class CriarContasResource {
     private CadastrarContaParticipanteController cadastrarContaParticipanteController;
 
     @Autowired
-    private CadastrarContaProdutorController cadastrarContaProdutorController;
+    private GerenciarContaProdutor gerenciarContaProdutor;
 
     /**
      * Responsável por receber e repassar a requisição para o CadastrarContaParticipanteController <br />
@@ -47,7 +47,7 @@ public class CriarContasResource {
      * */
     @PostMapping(PATH_CRIAR_CONTA_PRODUTOR)
     public ResponseEntity<ProdutorResponse> cadastrarProdutor(@RequestBody PessoaCadastroRequest pessoaCadastroRequest){
-        ProdutorResponse response = cadastrarContaProdutorController.cadastrarProdutor(pessoaCadastroRequest);
+        ProdutorResponse response = gerenciarContaProdutor.cadastrarProdutor(pessoaCadastroRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
