@@ -26,8 +26,6 @@ import static br.com.eventvs.api.util.Paths.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping(value = PATH_INSCRICAO)
 @CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
