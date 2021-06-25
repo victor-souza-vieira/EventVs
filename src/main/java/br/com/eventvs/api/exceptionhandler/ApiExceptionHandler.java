@@ -14,13 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
-
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
-
-
-
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
@@ -57,7 +52,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		}
 		var problema = new Problema();
 		problema.setStatus(status.value());
-		problema.setMessage("Um ou mais campos estão invalidos. Preencha Corretamente!");
+		problema.setMessage("Um ou mais campos estão inválidos. Preencha Corretamente!");
 		problema.setDataHora(OffsetDateTime.now());
 		problema.setCampos(campos);
 		return super.handleExceptionInternal(ex,problema, headers, status, request);
