@@ -42,9 +42,9 @@ public class InscricaoResource {
 	@Autowired
 	ModelMapper modelMapper;
 	
-	/*
+	/**
 	 * Cadastra uma inscrição
-	 * @param InscricaoRequest inscricaoRequest
+	 * @param inscricaoRequest InscricaoRequest
 	 * @return ResponseEntity<InscricaoResponse>
 	 */
 	@PostMapping()
@@ -56,6 +56,7 @@ public class InscricaoResource {
 		}
 		return ResponseEntity.badRequest().build();
 	}
+
 	/**
      * Lista as Inscrições de um evento
      * @param eventoId

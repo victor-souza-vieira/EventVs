@@ -46,11 +46,6 @@ public class CategoriaResource {
     @RequestMapping(value = PATH_BUSCAR_CATEGORIA_POR_NOME)
     public ResponseEntity<?> buscarCategoriasPorNome(@RequestBody CategoriaRequest categoria){
         List<Categoria> categorias = categoriaController.listarCategoriasPorNome(categoria);
-
-        if(categorias.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
     }
 
@@ -76,10 +71,6 @@ public class CategoriaResource {
     @RequestMapping(value = PATH_BUSCAR_CATEGORIA_POR_DESCRICAO)
     public ResponseEntity<?> buscarCategoriaPorDescricao(@RequestBody CategoriaRequest categoria) {
         List<Categoria> categorias = categoriaController.listarCategoriaPorDescricao(categoria);
-
-        if (categorias.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
     }
 }

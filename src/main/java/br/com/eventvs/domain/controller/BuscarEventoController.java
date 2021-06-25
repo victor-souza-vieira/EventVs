@@ -6,10 +6,7 @@ import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.enums.StatusEvento;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
-import br.com.eventvs.domain.model.Categoria;
-import br.com.eventvs.domain.model.Evento;
-import br.com.eventvs.domain.model.Pessoa;
-import br.com.eventvs.domain.model.Produtor;
+import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.ParticipanteRepository;
@@ -235,6 +232,27 @@ public class BuscarEventoController {
         return preencherResponse(eventos);
     }
 
+    public EventoResponse listarPorId(String email, Integer eventoId){
+        Pessoa pessoa = loginController.login(email);
+
+        Produtor produtor = produtorRepository.findByPessoa(pessoa);
+
+        Evento evento;
+        if (produtor != null){
+            evento = eventoRepository.findByIdAndProdutor(eventoId, produtor)
+                    .orElseThrow(() -> {
+                        throw new EntidadeNaoEncontradaException("Não foi encontrado evento com este código");
+                    });
+        }else{
+            evento = eventoRepository.findByIdAndStatusEvento(eventoId, StatusEvento.PUBLICADO)
+                    .orElseThrow(() -> {
+                        throw new EntidadeNaoEncontradaException("Não foi encontrado evento Publicado com este código");
+                    });
+        }
+
+        return preencherResponse(evento);
+    }
+
     /**
      * Método responsável por preencher um EventoResponse
      * @param eventos List
@@ -256,6 +274,26 @@ public class BuscarEventoController {
             eventoResponses.add(eventoResponse);
         });
         return eventoResponses;
+    }
+
+    /**
+     * Método responsável por preencher um EventoResponse
+     * @param evento {@link Evento}
+     * @return List of EventoResponse
+     * */
+    private EventoResponse preencherResponse(Evento evento) {
+
+        EventoResponse eventoResponse = new EventoResponse();
+        eventoResponse.setId(evento.getId());
+        eventoResponse.setNome(evento.getNome());
+        eventoResponse.setCategoria(evento.getCategoria().getNome());
+        eventoResponse.setStatusEvento(evento.getStatusEvento().name());
+        eventoResponse.setDescricao(evento.getDescricao());
+        eventoResponse.setDataHoraFim(evento.getDataHoraFim());
+        eventoResponse.setDataHoraInicio(evento.getDataHoraInicio());
+        eventoResponse.setEndereco(evento.getEndereco());
+        eventoResponse.setProdutor(evento.getProdutor().getPessoa().getNome());
+        return eventoResponse;
     }
 
     /**

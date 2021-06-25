@@ -104,6 +104,18 @@ public class EventoResource {
     }
 
     /**
+     * Retorna um evento filtrado pelo ID
+     *
+     * @return EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTO_ID)
+    @ResponseStatus(HttpStatus.OK)
+    public EventoResponse buscarPorId(@PathVariable Integer eventoId){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarPorId(email, eventoId);
+    }
+
+    /**
      * Retorna todos os eventos publicados.
      *
      * @return List of EventoResponse {@link EventoResponse}
