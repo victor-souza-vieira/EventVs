@@ -23,4 +23,7 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
     Optional<Evento> findByIdAndStatusEventoAndProdutor(Integer id, StatusEvento statusEvento, Produtor produtor);
     List<Evento> findAllByStatusEventoAndNomeContains(StatusEvento statusEvento, String nome);
     List<Evento> findAllByStatusEventoAndDataHoraInicioBetween(StatusEvento statusEvento, LocalDateTime dataInicio, LocalDateTime dataFim);
+
+    Optional<Evento> findByIdAndStatusEvento(Integer id, StatusEvento statusEvento);
+    Optional<Evento> findByIdAndProdutor(Integer id, Produtor produtor);
 }
