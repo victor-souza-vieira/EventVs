@@ -1,6 +1,5 @@
 package br.com.eventvs.api.dto.requests;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
