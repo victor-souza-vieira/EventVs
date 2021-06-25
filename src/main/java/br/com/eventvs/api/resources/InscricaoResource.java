@@ -111,7 +111,7 @@ public class InscricaoResource {
 	
 	/**
      * Mapeamento de uma Inscricao em InscricaoResponse
-     * @param Inscricao
+     * @param inscricao {@link Inscricao}
      * @return InscricaoResponse
      * */
 	private InscricaoResponse toModel(Inscricao inscricao) {
@@ -120,7 +120,7 @@ public class InscricaoResource {
 	
 	/**
      * Mapeamento de uma lista de Inscricoes em uma lista de InscricaoResponse
-     * @param List<Inscricao>
+     * @param inscricoes List<{@link Inscricao}>
      * @return List<InscricaoResponse>
      * */
 	private List<InscricaoResponse> toCollectionModel(List<Inscricao> inscricoes){
