@@ -1,6 +1,7 @@
 package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.api.dto.requests.CategoriaRequest;
+import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.model.Categoria;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,11 @@ public class CategoriaController {
      * @return List<Categoria>
      * */
     public List<Categoria> listarCategoriasPorNome(CategoriaRequest categoriaRequest){
-        return categoriaRepository.findAllByNomeContains(categoriaRequest.getNome());
+        List<Categoria> categorias = categoriaRepository.findAllByNomeContains(categoriaRequest.getNome());
+        if (categorias.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Não foram encontradas categorias que possuam este nome.");
+        }
+        return categorias;
     }
 
     /**
@@ -54,7 +59,11 @@ public class CategoriaController {
      * @return List<Categoria>
      * */
     public List<Categoria> listarCategoriaPorDescricao(CategoriaRequest categoriaRequest){
-        return categoriaRepository.findAllByDescricaoContains(categoriaRequest.getDescricao());
+        List<Categoria> categorias = categoriaRepository.findAllByDescricaoContains(categoriaRequest.getDescricao());
+        if (categorias.isEmpty()){
+            throw new EntidadeNaoEncontradaException("Não foram encontradas categorias que possuam esta descrição.");
+        }
+        return categorias;
     }
 
 }
