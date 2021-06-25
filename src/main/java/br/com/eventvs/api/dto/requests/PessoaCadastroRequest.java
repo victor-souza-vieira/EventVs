@@ -3,7 +3,7 @@ package br.com.eventvs.api.dto.requests;
 import lombok.Data;
 
 @Data
-public class ParticipanteCadastroRequest {
+public class PessoaCadastroRequest {
 
     private String nome;
     private String cpf;

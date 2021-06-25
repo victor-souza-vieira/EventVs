@@ -1,7 +1,6 @@
 package br.com.eventvs.api.resources;
 
-import br.com.eventvs.api.dto.requests.ParticipanteCadastroRequest;
-import br.com.eventvs.api.dto.requests.ProdutorCadastroRequest;
+import br.com.eventvs.api.dto.requests.PessoaCadastroRequest;
 import br.com.eventvs.api.dto.responses.ParticipanteResponse;
 import br.com.eventvs.api.dto.responses.ProdutorResponse;
 import br.com.eventvs.domain.controller.CadastrarContaParticipanteController;
@@ -30,32 +29,26 @@ public class CriarContasResource {
      * Responsável por receber e repassar a requisição para o CadastrarContaParticipanteController <br />
      * para que seja cadastrada a conta de um novo usuário
      *
-     * @param participanteCadastroRequest
+     * @param pessoaCadastroRequest
      * @return
      * */
     @PostMapping(PATH_CRIAR_CONTA_PARTICIPANTE)
-    public ResponseEntity<ParticipanteResponse> cadastrarParticipante(@RequestBody ParticipanteCadastroRequest participanteCadastroRequest){
-        ParticipanteResponse response = cadastrarContaParticipanteController.cadastrarParticipante(participanteCadastroRequest);
-        if(response != null){
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<ParticipanteResponse> cadastrarParticipante(@RequestBody PessoaCadastroRequest pessoaCadastroRequest){
+        ParticipanteResponse response = cadastrarContaParticipanteController.cadastrarParticipante(pessoaCadastroRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
      * Responsável por receber e repassar a requisição para o CadastrarContaProdutorController <br />
      * para que seja cadastrada a conta de um novo usuário
      *
-     * @param produtorCadastroRequest
+     * @param pessoaCadastroRequest
      * @return
      * */
     @PostMapping(PATH_CRIAR_CONTA_PRODUTOR)
-    public ResponseEntity<ProdutorResponse> cadastrarProdutor(@RequestBody ProdutorCadastroRequest produtorCadastroRequest){
-        ProdutorResponse response = cadastrarContaProdutorController.cadastrarProdutor(produtorCadastroRequest);
-        if(response != null){
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<ProdutorResponse> cadastrarProdutor(@RequestBody PessoaCadastroRequest pessoaCadastroRequest){
+        ProdutorResponse response = cadastrarContaProdutorController.cadastrarProdutor(pessoaCadastroRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
