@@ -8,15 +8,15 @@ import br.com.eventvs.domain.controller.GerenciarContaProdutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_CRIAR_CONTA)
+@CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
 public class CriarContasResource {
 
     @Autowired
@@ -33,7 +33,7 @@ public class CriarContasResource {
      * @return
      * */
     @PostMapping(PATH_CRIAR_CONTA_PARTICIPANTE)
-    public ResponseEntity<ParticipanteResponse> cadastrarParticipante(@RequestBody PessoaCadastroRequest pessoaCadastroRequest){
+    public ResponseEntity<ParticipanteResponse> cadastrarParticipante(@Valid @RequestBody PessoaCadastroRequest pessoaCadastroRequest){
         ParticipanteResponse response = cadastrarContaParticipanteController.cadastrarParticipante(pessoaCadastroRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -46,7 +46,7 @@ public class CriarContasResource {
      * @return
      * */
     @PostMapping(PATH_CRIAR_CONTA_PRODUTOR)
-    public ResponseEntity<ProdutorResponse> cadastrarProdutor(@RequestBody PessoaCadastroRequest pessoaCadastroRequest){
+    public ResponseEntity<ProdutorResponse> cadastrarProdutor(@Valid @RequestBody PessoaCadastroRequest pessoaCadastroRequest){
         ProdutorResponse response = gerenciarContaProdutor.cadastrarProdutor(pessoaCadastroRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

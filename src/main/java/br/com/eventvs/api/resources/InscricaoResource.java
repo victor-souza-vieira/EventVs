@@ -26,8 +26,6 @@ import static br.com.eventvs.api.util.Paths.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping(value = PATH_INSCRICAO)
 @CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
@@ -111,7 +109,7 @@ public class InscricaoResource {
 	
 	/**
      * Mapeamento de uma Inscricao em InscricaoResponse
-     * @param Inscricao
+     * @param inscricao {@link Inscricao}
      * @return InscricaoResponse
      * */
 	private InscricaoResponse toModel(Inscricao inscricao) {
@@ -120,7 +118,7 @@ public class InscricaoResource {
 	
 	/**
      * Mapeamento de uma lista de Inscricoes em uma lista de InscricaoResponse
-     * @param List<Inscricao>
+     * @param inscricoes List<{@link Inscricao}>
      * @return List<InscricaoResponse>
      * */
 	private List<InscricaoResponse> toCollectionModel(List<Inscricao> inscricoes){

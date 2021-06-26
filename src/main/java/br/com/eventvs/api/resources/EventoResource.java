@@ -21,6 +21,7 @@ import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_EVENTO)
+@CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
 public class EventoResource {
 
 
@@ -96,7 +97,7 @@ public class EventoResource {
      * @param eventoId
      * @return EventoResponse
      * */
-	@PatchMapping(value = PATH_EVENTOS_ID_EXCLUIR)
+	@DeleteMapping(value = PATH_EVENTO_ID)
     @ResponseStatus(HttpStatus.OK)
 	public void excluirEvento(@PathVariable Integer eventoId){
         String email = eventvsSecurity.getPessoaEmail();
