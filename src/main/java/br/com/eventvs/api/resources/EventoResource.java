@@ -96,7 +96,7 @@ public class EventoResource {
      * @param eventoId
      * @return EventoResponse
      * */
-	@PatchMapping(value = PATH_EVENTOS_ID_EXCLUIR)
+	@DeleteMapping(value = PATH_EVENTO_ID)
     @ResponseStatus(HttpStatus.OK)
 	public void excluirEvento(@PathVariable Integer eventoId){
         String email = eventvsSecurity.getPessoaEmail();
