@@ -8,10 +8,7 @@ import br.com.eventvs.domain.controller.GerenciarContaProdutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -19,6 +16,7 @@ import static br.com.eventvs.api.util.Paths.*;
 
 @RestController
 @RequestMapping(value = PATH_CRIAR_CONTA)
+@CrossOrigin(methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
 public class CriarContasResource {
 
     @Autowired
