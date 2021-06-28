@@ -2,7 +2,7 @@ package br.com.eventvs.api.resources;
 
 import br.com.eventvs.api.dto.requests.CategoriaRequest;
 import br.com.eventvs.core.security.EventvsSecurity;
-import br.com.eventvs.domain.controller.CategoriaController;
+import br.com.eventvs.domain.controller.GerenciarCategoriaController;
 import br.com.eventvs.domain.model.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import static br.com.eventvs.api.util.Paths.*;
 public class CategoriaResource {
 
     @Autowired
-    private CategoriaController categoriaController;
+    private GerenciarCategoriaController gerenciarCategoriaController;
 
     @Autowired
     private EventvsSecurity eventvsSecurity;
@@ -32,7 +32,7 @@ public class CategoriaResource {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Categoria> listarCategorias(){
-        return categoriaController.listarCategorias();
+        return gerenciarCategoriaController.listarCategorias();
     }
 
 
@@ -45,7 +45,7 @@ public class CategoriaResource {
     @GetMapping
     @RequestMapping(value = PATH_BUSCAR_CATEGORIA_POR_NOME)
     public ResponseEntity<?> buscarCategoriasPorNome(@RequestBody CategoriaRequest categoria){
-        List<Categoria> categorias = categoriaController.listarCategoriasPorNome(categoria);
+        List<Categoria> categorias = gerenciarCategoriaController.listarCategoriasPorNome(categoria);
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
     }
 
@@ -58,7 +58,7 @@ public class CategoriaResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Categoria cadastrarCategoria(@RequestBody CategoriaRequest categoriaRequest){
-        return categoriaController.cadastrarCategoria(categoriaRequest);
+        return gerenciarCategoriaController.cadastrarCategoria(categoriaRequest);
     }
 
     /**
@@ -70,7 +70,7 @@ public class CategoriaResource {
     @GetMapping
     @RequestMapping(value = PATH_BUSCAR_CATEGORIA_POR_DESCRICAO)
     public ResponseEntity<?> buscarCategoriaPorDescricao(@RequestBody CategoriaRequest categoria) {
-        List<Categoria> categorias = categoriaController.listarCategoriaPorDescricao(categoria);
+        List<Categoria> categorias = gerenciarCategoriaController.listarCategoriaPorDescricao(categoria);
         return ResponseEntity.status(HttpStatus.OK).body(categorias);
     }
 }
