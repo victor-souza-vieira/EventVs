@@ -6,7 +6,6 @@ import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.core.security.EventvsSecurity;
 import br.com.eventvs.domain.controller.BuscarEventoController;
 import br.com.eventvs.domain.controller.GerenciarEventoController;
-import br.com.eventvs.domain.model.Evento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,8 @@
 package br.com.eventvs.domain.repository;
 
-import br.com.eventvs.domain.model.Administrador;
-import br.com.eventvs.domain.model.Inscricao;
 import br.com.eventvs.domain.model.Participante;
 import br.com.eventvs.domain.model.Pessoa;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

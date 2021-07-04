@@ -29,7 +29,7 @@ public class GerenciarEventoController {
 	private EnderecoController enderecoControler;
 
 	@Autowired
-	private LoginController loginController;
+	private GerenciarContaController gerenciarContaController;
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -45,9 +45,9 @@ public class GerenciarEventoController {
 	 * @return EventoRespons
 	 */
 	public EventoResponse criarEvento(EventoRequest eventoRequest, String email){
-		Pessoa pessoa = loginController.login(email);
+		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
-		Produtor produtor = loginController.login(pessoa);
+		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
 		Endereco endereco = enderecoControler.salvarEndereco(eventoRequest.getEndereco());
 
@@ -73,8 +73,8 @@ public class GerenciarEventoController {
 	 * @return EventoResponse
 	 */
 	public EventoResponse editarEvento(Integer eventoID, EventoRequest eventoRequest, String email) {
-		Pessoa pessoa = loginController.login(email);
-		Produtor produtor = loginController.login(pessoa);
+		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 		
 		Evento evento = eventoRepository.findById(eventoID)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
@@ -117,8 +117,8 @@ public class GerenciarEventoController {
 	 * @return boolean
 	 */
 	public void cancelarEvento(Integer eventoID, String email) {
-		Pessoa pessoa = loginController.login(email);
-		Produtor produtor = loginController.login(pessoa);
+		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 		
 		Evento evento = eventoRepository.findById(eventoID)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
@@ -149,8 +149,8 @@ public class GerenciarEventoController {
 	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
 	 * */
 	public EventoResponse publicarEvento(String email, Integer eventoId){
-		Pessoa pessoa = loginController.login(email);
-		Produtor produtor = loginController.login(pessoa);
+		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
 		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
 			throw new EntidadeNaoEncontradaException("O produtor não possui evento com id " + eventoId + " a ser publicado.");
@@ -173,8 +173,8 @@ public class GerenciarEventoController {
 	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
 	 * */
 	public void excluirEvento(String email, Integer eventoId){
-		Pessoa pessoa = loginController.login(email);
-		Produtor produtor = loginController.login(pessoa);
+		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
 		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
 			throw new NegocioException("O evento não pertence a este produtor.");

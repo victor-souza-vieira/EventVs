@@ -1,21 +1,26 @@
 package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.domain.exception.NegocioException;
+import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
+import br.com.eventvs.domain.repository.AdministradorRepository;
 import br.com.eventvs.domain.repository.PessoaRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginController {
+public class GerenciarContaController {
 
     @Autowired
     private PessoaRepository pessoaRepository;
 
     @Autowired
     private ProdutorRepository produtorRepository;
+
+    @Autowired
+    private AdministradorRepository administradorRepository;
 
     /**
      * Método responsável por verificar se uma pessoa realmente existe no banco de dados
@@ -25,7 +30,7 @@ public class LoginController {
      * @return Pessoa
      * @throws NegocioException {@link NegocioException}
      * */
-    public Pessoa login(String email){
+    public Pessoa loginProdutor(String email){
         return pessoaRepository.findByEmail(email).orElseThrow(() -> {
             throw new NegocioException("Usuário não está logado no sistema.");
         });
@@ -38,10 +43,25 @@ public class LoginController {
      * @return Produtor
      * @throws NegocioException {@link NegocioException}
      * */
-    public Produtor login(Pessoa pessoa){
+    public Produtor loginProdutor(Pessoa pessoa){
         return produtorRepository.findByPessoaId(pessoa.getId()).orElseThrow(() -> {
             throw new NegocioException("Usuário não é um produtor de eventos.");
         });
     }
+
+    /**
+     * Método responsável por verificar se uma pessoa logada na api é um administrador
+     *
+     * @param pessoa
+     * @return Administrador
+     * @throws NegocioException {@link NegocioException}
+     * */
+    public Administrador loginAdministrador(Pessoa pessoa){
+        return administradorRepository.findByPessoaId(pessoa.getId()).orElseThrow(() -> {
+            throw new NegocioException("Usuário não é um administrador.");
+        });
+    }
+
+
 
 }
