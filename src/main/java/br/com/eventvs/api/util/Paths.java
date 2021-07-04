@@ -7,7 +7,6 @@ public class Paths {
     public static final String PATH_INSCRICAO = "/inscricoes";
     public static final String PATH_PARTICIPANTE = "/participantes";
     public static final String PATH_PESSOA = "/pessoas";
-    public static final String PATH_PRODUTOR = "/produtores";
 
     /* Categorias */
     public static final String PATH_CATEGORIA = "/categorias";
@@ -39,5 +38,11 @@ public class Paths {
     public static final String PATH_EVENTOS_PUBLICADOS_POR_NOME = PATH_EVENTOS_PUBLICADOS + "/nome";
     public static final String PATH_EVENTOS_PUBLICADOS_ENTRE_DATAS = PATH_EVENTOS_PUBLICADOS + "/entre-datas";
 
+
+    /* Produtores */
+    public static final String PATH_PRODUTOR = "/produtores";
+    public static final String PATH_PRODUTOR_ACEITAR_CADASTRO = "/{produtorId}/aceitar";
+    public static final String PATH_PRODUTOR_RECUSAR_CADASTRO = "/{produtorId}/recusar";
+    public static final String PATH_PRODUTOR_LISTAR_SOLICITADOS = "/solicitados";
 
 }

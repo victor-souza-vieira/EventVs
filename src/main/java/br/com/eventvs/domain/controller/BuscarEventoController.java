@@ -40,7 +40,7 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicados(String email){
-        gerenciarContaController.login(email);
+        gerenciarContaController.loginProdutor(email);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
 
@@ -58,7 +58,7 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
-        gerenciarContaController.login(email);
+        gerenciarContaController.loginProdutor(email);
 
         Categoria categoria = buscarCategoria(categoriaId);
 
@@ -83,9 +83,9 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicados(String email){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
-        Produtor produtor = gerenciarContaController.login(pessoa);
+        Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.CRIADO, produtor);
 
@@ -108,9 +108,9 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosPorCategoria(String email, Integer categoriaId){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
-        Produtor produtor = gerenciarContaController.login(pessoa);
+        Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         Categoria categoria = buscarCategoria(categoriaId);
 
@@ -135,9 +135,9 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosPorNome(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
-        Produtor produtor = gerenciarContaController.login(pessoa);
+        Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.CRIADO, eventoRequest.getNome(), produtor);
 
@@ -159,7 +159,7 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosPorNome(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
         Produtor produtor = produtorRepository.findByPessoa(pessoa);
 
@@ -188,7 +188,7 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosEntreDatas(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
         Produtor produtor = produtorRepository.findByPessoa(pessoa);
 
@@ -218,9 +218,9 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosEntreDatas(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
-        Produtor produtor = gerenciarContaController.login(pessoa);
+        Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetweenAndProdutor(StatusEvento.CRIADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim() ,produtor);
 
@@ -232,7 +232,7 @@ public class BuscarEventoController {
     }
 
     public EventoResponse listarPorId(String email, Integer eventoId){
-        Pessoa pessoa = gerenciarContaController.login(email);
+        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
 
         Produtor produtor = produtorRepository.findByPessoa(pessoa);
 

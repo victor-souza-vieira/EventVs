@@ -79,6 +79,11 @@ o seguinte trecho: <br />
 - [x] Criar conta de participante.
 - [x] Criar conta de produtor.
 - [x] Login.
+- [x] Aceitar conta de produtor.
+- [x] Recusar conta de produtor.
+- [x] Listar solicitações de contas produtores.
+- [x] Listar eventos publicados com base nos filtros(apenas um filtro por vez).
+- [x] Listar eventos não publicados com base nos filtros(apenas um filtro por vez).
 
 ### Endpoints prontos
 
@@ -108,3 +113,6 @@ Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400
 Listar todos eventos não publicados por categoria | /eventos/nao-publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
 Listar todos eventos não publicados por nome | /eventos/nao-publicados/nome | GET | 200 - 400 - 404
 Listar todos eventos não publicados entre duas datas | /eventos/nao-publicados/entre-datas | GET | 200 - 400 - 404
+Aceitar conta de produtor | /produtores/{produtorId}/aceitar | GET | 200 - 400 - 404
+Recusar conta de produtor | /produtores/{produtorId}/recusar | GET | 200 - 400 - 404
+Listar solicitações de conta de produtores | /produtores/solicitados | GET | 200 - 400 - 404
