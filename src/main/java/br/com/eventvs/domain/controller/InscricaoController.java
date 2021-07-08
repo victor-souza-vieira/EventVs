@@ -41,7 +41,7 @@ public class InscricaoController {
 	/**
      * Cadastra uma inscricao
      *
-     * @param InscricaoRequest
+     * @param inscricaoRequest
      * @return Inscricao
      * @return null
      * */
@@ -106,7 +106,7 @@ public class InscricaoController {
 	 * @return Optional<List<Inscricao>>
 	 */
 	public List<Inscricao> visualizarParticipantes(Integer eventoId, String email) {
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 		
 		Evento evento = eventoRepository.findById(eventoId)
@@ -127,7 +127,7 @@ public class InscricaoController {
 	 * @param email
 	 */
 	public void cancelarInscricao(Integer inscricaoId, String email) {
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		
 		Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Inscrição não encontrada na base de dados."));

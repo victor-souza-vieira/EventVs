@@ -45,7 +45,7 @@ public class GerenciarEventoController {
 	 * @return EventoRespons
 	 */
 	public EventoResponse criarEvento(EventoRequest eventoRequest, String email){
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
@@ -73,7 +73,7 @@ public class GerenciarEventoController {
 	 * @return EventoResponse
 	 */
 	public EventoResponse editarEvento(Integer eventoID, EventoRequest eventoRequest, String email) {
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 		
 		Evento evento = eventoRepository.findById(eventoID)
@@ -117,7 +117,7 @@ public class GerenciarEventoController {
 	 * @return boolean
 	 */
 	public void cancelarEvento(Integer eventoID, String email) {
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 		
 		Evento evento = eventoRepository.findById(eventoID)
@@ -149,7 +149,7 @@ public class GerenciarEventoController {
 	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
 	 * */
 	public EventoResponse publicarEvento(String email, Integer eventoId){
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
 		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
@@ -173,7 +173,7 @@ public class GerenciarEventoController {
 	 * @throws EntidadeNaoEncontradaException {@link EntidadeNaoEncontradaException}
 	 * */
 	public void excluirEvento(String email, Integer eventoId){
-		Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+		Pessoa pessoa = gerenciarContaController.login(email);
 		Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
 		Evento evento = eventoRepository.findByIdAndStatusEventoAndProdutor(eventoId, StatusEvento.CRIADO, produtor).orElseThrow(() -> {
