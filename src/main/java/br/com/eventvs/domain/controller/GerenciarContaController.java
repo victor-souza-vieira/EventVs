@@ -55,10 +55,10 @@ public class GerenciarContaController {
     }
 
     /**
-     * Método responsável por verificar se uma pessoa logada na api é um produtor
+     * Método responsável por verificar se uma pessoa logada na api é um participante
      *
      * @param pessoa
-     * @return Produtor
+     * @return Participante
      * @throws NegocioException {@link NegocioException}
      * */
     public Participante loginParticipante(Pessoa pessoa){
