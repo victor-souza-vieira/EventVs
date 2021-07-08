@@ -30,7 +30,7 @@ public class GerenciarContaController {
      * @return Pessoa
      * @throws NegocioException {@link NegocioException}
      * */
-    public Pessoa loginProdutor(String email){
+    public Pessoa login(String email){
         return pessoaRepository.findByEmail(email).orElseThrow(() -> {
             throw new NegocioException("Usuário não está logado no sistema.");
         });
