@@ -9,12 +9,15 @@ import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
+import br.com.eventvs.domain.repository.InscricaoRepository;
+import br.com.eventvs.domain.repository.ParticipanteRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BuscarEventoController {
@@ -30,7 +33,12 @@ public class BuscarEventoController {
 
     @Autowired
     private ProdutorRepository produtorRepository;
+    
+    @Autowired
+    private ParticipanteRepository participanteRepository;
 
+    @Autowired
+    private InscricaoRepository inscricaoRepository;
 
     /**
      * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado).
@@ -44,6 +52,30 @@ public class BuscarEventoController {
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
 
+        return preencherResponse(eventos);
+    }
+    /**
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado menos os que o usuario já está inscrito).
+     *
+     * @param email String
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosPublicadosFiltro(String email){
+        gerenciarContaController.loginProdutor(email);
+        Optional<Participante> participante  = participanteRepository.findByPessoaEmail(email);
+		if(participante.isEmpty()) {
+			throw new EntidadeNaoEncontradaException("Participante não encontrado na base de dados.");
+		} 
+        List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
+        List<Evento> eventos_aux = new ArrayList<Evento>();
+        eventos_aux.addAll(eventos);
+        for(Evento evento : eventos_aux){
+        	Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante.get());
+    		if(inscricao_existe.isPresent()) {
+    			eventos.remove(evento);
+    		}
+        }	
         return preencherResponse(eventos);
     }
 
