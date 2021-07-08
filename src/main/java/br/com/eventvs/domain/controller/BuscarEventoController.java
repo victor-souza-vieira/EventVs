@@ -62,16 +62,13 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosFiltro(String email){
-        gerenciarContaController.loginProdutor(email);
-        Optional<Participante> participante  = participanteRepository.findByPessoaEmail(email);
-		if(participante.isEmpty()) {
-			throw new EntidadeNaoEncontradaException("Participante não encontrado na base de dados.");
-		} 
+        Pessoa pessoa = gerenciarContaController.login(email);
+        Participante participante = participanteRepository.findByPessoa(pessoa);
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
         List<Evento> eventos_aux = new ArrayList<Evento>();
         eventos_aux.addAll(eventos);
         for(Evento evento : eventos_aux){
-        	Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante.get());
+        	Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante);
     		if(inscricao_existe.isPresent()) {
     			eventos.remove(evento);
     		}
