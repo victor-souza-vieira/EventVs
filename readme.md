@@ -109,6 +109,7 @@ Listar todos eventos publicados | /eventos/publicados | GET | 200
 Listar todos eventos publicados por categoria | /eventos/publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
 Listar todos eventos publicados por nome | /eventos/publicados/nome | GET | 200 - 400 - 404
 Listar todos eventos publicados entre duas datas | /eventos/publicados/entre-datas | GET | 200 - 400 - 404
+Listar todos eventos publicados com o usuário não inscrito | /eventos/publicados_filtro | GET | 200 - 400 - 404
 Listar todos eventos não publicados | /eventos/nao-publicados | GET | 200 - 400 - 404
 Listar todos eventos não publicados por categoria | /eventos/nao-publicados/categoria/{categoriaId} | GET | 200 - 400 - 404
 Listar todos eventos não publicados por nome | /eventos/nao-publicados/nome | GET | 200 - 400 - 404
