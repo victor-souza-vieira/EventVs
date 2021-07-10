@@ -182,8 +182,8 @@ public class EventoResource {
         String email = eventvsSecurity.getPessoaEmail();
         var eventoRequest = new EventoRequest();
 
-        eventoRequest.setDataHoraInicio(LocalDateTime.parse(request.get(request.keySet().toArray()[0])));
-        eventoRequest.setDataHoraFim(LocalDateTime.parse(request.get(request.keySet().toArray()[1])));
+        eventoRequest.setDataHoraInicio(LocalDateTime.parse(request.get(request.keySet().toArray()[0]).replace("Z", "")));
+        eventoRequest.setDataHoraFim(LocalDateTime.parse(request.get(request.keySet().toArray()[1]).replace("Z", "")));
 
         return buscarEventoController.listarTodosNaoPublicadosEntreDatas(email, eventoRequest);
     }
