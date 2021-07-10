@@ -211,7 +211,7 @@ public class GerenciarEventoController {
 		EventoResponse eventoResponse = new EventoResponse();
 		eventoResponse.setId(evento.getId());
 		eventoResponse.setNome(evento.getNome());
-		eventoResponse.setCategoria(evento.getCategoria().getNome());
+		eventoResponse.setCategoria(evento.getCategoria());
 		eventoResponse.setStatusEvento(evento.getStatusEvento().name());
 		eventoResponse.setDescricao(evento.getDescricao());
 		eventoResponse.setDataHoraFim(evento.getDataHoraFim());

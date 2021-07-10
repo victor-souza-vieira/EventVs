@@ -1,5 +1,6 @@
 package br.com.eventvs.api.dto.responses;
 
+import br.com.eventvs.domain.model.Categoria;
 import br.com.eventvs.domain.model.Endereco;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class EventoResponse {
     private String descricao;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
-    private String categoria;
+    private Categoria categoria;
     private String statusEvento;
     private String produtor;
     private Endereco endereco;

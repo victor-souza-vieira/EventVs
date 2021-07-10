@@ -235,7 +235,7 @@ public class BuscarEventoController {
             EventoResponse eventoResponse = new EventoResponse();
             eventoResponse.setId(e.getId());
             eventoResponse.setNome(e.getNome());
-            eventoResponse.setCategoria(e.getCategoria().getNome());
+            eventoResponse.setCategoria(e.getCategoria());
             eventoResponse.setStatusEvento(e.getStatusEvento().name());
             eventoResponse.setDescricao(e.getDescricao());
             eventoResponse.setDataHoraFim(e.getDataHoraFim());
@@ -257,7 +257,7 @@ public class BuscarEventoController {
         EventoResponse eventoResponse = new EventoResponse();
         eventoResponse.setId(evento.getId());
         eventoResponse.setNome(evento.getNome());
-        eventoResponse.setCategoria(evento.getCategoria().getNome());
+        eventoResponse.setCategoria(evento.getCategoria());
         eventoResponse.setStatusEvento(evento.getStatusEvento().name());
         eventoResponse.setDescricao(evento.getDescricao());
         eventoResponse.setDataHoraFim(evento.getDataHoraFim());
