@@ -11,8 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.*;
 import javax.validation.Valid;
 
 import static br.com.eventvs.api.util.Paths.*;
@@ -170,13 +173,18 @@ public class EventoResource {
     /**
      * Retorna todos os eventos de uma determinada categoria, não publicados por produtor.
      *
-     * @param eventoRequest EventoRequest
+     * @param request Map
      * @return List of EventoResponse {@link EventoResponse}
      * */
     @GetMapping(value = PATH_EVENTOS_NAO_PUBLICADOS_ENTRE_DATAS)
     @ResponseStatus(HttpStatus.OK)
-    public List<EventoResponse> listarEventosNaoPublicadosEntreDatas(@RequestBody EventoRequest eventoRequest){
+    public List<EventoResponse> listarEventosNaoPublicadosEntreDatas(@RequestParam Map<String, String> request){
         String email = eventvsSecurity.getPessoaEmail();
+        var eventoRequest = new EventoRequest();
+
+        eventoRequest.setDataHoraInicio(LocalDateTime.parse(request.get(request.keySet().toArray()[0])));
+        eventoRequest.setDataHoraFim(LocalDateTime.parse(request.get(request.keySet().toArray()[1])));
+
         return buscarEventoController.listarTodosNaoPublicadosEntreDatas(email, eventoRequest);
     }
 
@@ -210,13 +218,18 @@ public class EventoResource {
     /**
      * Retorna todos os eventos entre um intervalo de datas.
      *
-     * @param eventoRequest
+     * @param request
      * @return List of EventoResponse {@link EventoResponse}
      * */
     @GetMapping(value = PATH_EVENTOS_PUBLICADOS_ENTRE_DATAS)
     @ResponseStatus(HttpStatus.OK)
-    public List<EventoResponse> listarEventosPublicadosEntreDatas(@RequestBody EventoRequest eventoRequest){
+    public List<EventoResponse> listarEventosPublicadosEntreDatas(@RequestParam Map<String, String> request){
         String email = eventvsSecurity.getPessoaEmail();
+        var eventoRequest = new EventoRequest();
+
+        eventoRequest.setDataHoraInicio(LocalDateTime.parse(request.get(request.keySet().toArray()[0])));
+        eventoRequest.setDataHoraFim(LocalDateTime.parse(request.get(request.keySet().toArray()[1])));
+
         return buscarEventoController.listarTodosPublicadosEntreDatas(email, eventoRequest);
     }
 }
