@@ -64,10 +64,6 @@ public class BuscarEventoController {
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados para a categoria informada.");
-        }
-
         return preencherResponse(eventos);
     }
 
@@ -88,10 +84,6 @@ public class BuscarEventoController {
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.CRIADO, produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado.");
-        }
 
         return preencherResponse(eventos);
     }
@@ -116,10 +108,6 @@ public class BuscarEventoController {
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.CRIADO, categoria, produtor);
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado com a categoria informada.");
-        }
-
         return preencherResponse(eventos);
     }
 
@@ -140,10 +128,6 @@ public class BuscarEventoController {
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.CRIADO, eventoRequest.getNome(), produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com este nome.");
-        }
 
         return preencherResponse(eventos);
     }
@@ -168,10 +152,6 @@ public class BuscarEventoController {
             eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.PUBLICADO, eventoRequest.getNome(), produtor);
         }else {
             eventos = eventoRepository.findAllByStatusEventoAndNomeContains(StatusEvento.PUBLICADO, eventoRequest.getNome());
-        }
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados que contenham este nome.");
         }
 
         return preencherResponse(eventos);
@@ -199,10 +179,6 @@ public class BuscarEventoController {
             eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetween(StatusEvento.PUBLICADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim());
         }
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados entre essas datas.");
-        }
-
         return preencherResponse(eventos);
     }
 
@@ -223,10 +199,6 @@ public class BuscarEventoController {
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetweenAndProdutor(StatusEvento.CRIADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim() ,produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com entre estas datas.");
-        }
 
         return preencherResponse(eventos);
     }
