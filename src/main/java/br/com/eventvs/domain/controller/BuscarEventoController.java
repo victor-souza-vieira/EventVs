@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BuscarEventoController {
@@ -33,9 +34,6 @@ public class BuscarEventoController {
 
     @Autowired
     private ProdutorRepository produtorRepository;
-    
-    @Autowired
-    private ParticipanteRepository participanteRepository;
 
     @Autowired
     private InscricaoRepository inscricaoRepository;
@@ -68,14 +66,8 @@ public class BuscarEventoController {
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
 
-        List<Evento> eventos_aux = new ArrayList<Evento>();
-        eventos_aux.addAll(eventos);
-        for(Evento evento : eventos_aux){
-        	Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante);
-    		if(inscricao_existe.isPresent()) {
-    			eventos.remove(evento);
-    		}
-        }	
+        eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipante(evento, participante).isPresent()).collect(Collectors.toList());
+
         return preencherResponse(eventos);
     }
 
