@@ -129,6 +129,18 @@ public class EventoResource {
         String email = eventvsSecurity.getPessoaEmail();
         return buscarEventoController.listarTodosPublicados(email);
     }
+    
+    /**
+     * Retorna todos os eventos publicados no qual o usuario não está inscrito.
+     *
+     * @return List of EventoResponse {@link EventoResponse}
+     * */
+    @GetMapping(value = PATH_EVENTOS_PUBLICADOS_FILTRO)
+    @ResponseStatus(HttpStatus.OK)
+    public List<EventoResponse> listarEventosPublicadosFiltro(){
+        String email = eventvsSecurity.getPessoaEmail();
+        return buscarEventoController.listarTodosPublicadosFiltro(email);
+    }
 
 
     /**
