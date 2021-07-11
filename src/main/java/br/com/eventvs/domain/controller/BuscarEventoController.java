@@ -44,7 +44,7 @@ public class BuscarEventoController {
     public List<EventoResponse> listarTodosPublicados(String email){
         var pessoa = gerenciarContaController.login(email);
 
-        var produtor = gerenciarContaController.loginProdutor(pessoa);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
         List<Evento> eventos;
         //Fluxo de produtor
@@ -96,7 +96,7 @@ public class BuscarEventoController {
     public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
         var pessoa = gerenciarContaController.login(email);
 
-        var produtor = gerenciarContaController.loginProdutor(pessoa);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
         Categoria categoria = gerenciarCategoriaController.buscarCategoria(categoriaId);
 
@@ -196,7 +196,7 @@ public class BuscarEventoController {
     public List<EventoResponse> listarTodosPublicadosPorNome(String email, EventoRequest eventoRequest){
         var pessoa = gerenciarContaController.login(email);
 
-        var produtor = gerenciarContaController.loginProdutor(pessoa);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
         List<Evento> eventos;
         if (produtor != null){
