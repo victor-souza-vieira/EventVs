@@ -2,6 +2,7 @@ package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.api.dto.requests.CategoriaRequest;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
+import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.Categoria;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,20 @@ public class GerenciarCategoriaController {
             throw new EntidadeNaoEncontradaException("Não foram encontradas categorias que possuam esta descrição.");
         }
         return categorias;
+    }
+
+    /**
+     * Buscar uma categoria pelo id caso não encontre lança uma {@link NegocioException}
+     *
+     * @param categoriaId Integer
+     * @return Categoria
+     * @throws NegocioException
+     * */
+    public Categoria buscarCategoria(Integer categoriaId) {
+        return categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> {
+                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id "+ categoriaId);
+                });
     }
 
 }

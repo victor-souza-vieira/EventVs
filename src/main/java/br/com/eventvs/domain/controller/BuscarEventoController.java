@@ -1,13 +1,11 @@
 package br.com.eventvs.domain.controller;
 
-
 import br.com.eventvs.api.dto.requests.EventoRequest;
 import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.enums.StatusEvento;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
-import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
@@ -25,7 +23,7 @@ public class BuscarEventoController {
     private EventoRepository eventoRepository;
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private GerenciarCategoriaController gerenciarCategoriaController;
 
     @Autowired
     private GerenciarContaController gerenciarContaController;
@@ -83,7 +81,7 @@ public class BuscarEventoController {
     public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
         gerenciarContaController.login(email);
 
-        Categoria categoria = buscarCategoria(categoriaId);
+        Categoria categoria = gerenciarCategoriaController.buscarCategoria(categoriaId);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
 
@@ -127,7 +125,7 @@ public class BuscarEventoController {
 
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
-        Categoria categoria = buscarCategoria(categoriaId);
+        Categoria categoria = gerenciarCategoriaController.buscarCategoria(categoriaId);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.CRIADO, categoria, produtor);
 
@@ -226,6 +224,15 @@ public class BuscarEventoController {
         return preencherResponse(eventos);
     }
 
+
+    /**
+     * Método responsável por retornar um evento pelo seu identificador.
+     *
+     * @throws EntidadeNaoEncontradaException
+     * @param email String
+     * @param eventoId Integer
+     * @return {@link EventoResponse}
+     * */
     public EventoResponse listarPorId(String email, Integer eventoId){
         Pessoa pessoa = gerenciarContaController.login(email);
 
@@ -289,20 +296,5 @@ public class BuscarEventoController {
         eventoResponse.setProdutor(evento.getProdutor().getPessoa().getNome());
         return eventoResponse;
     }
-
-    /**
-     * Buscar uma categoria pelo id caso não encontre lança uma {@link NegocioException}
-     *
-     * @param categoriaId Integer
-     * @return Categoria
-     * @throws NegocioException
-     * */
-    private Categoria buscarCategoria(Integer categoriaId) {
-        return categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> {
-                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id "+ categoriaId);
-                });
-    }
-
 
 }
