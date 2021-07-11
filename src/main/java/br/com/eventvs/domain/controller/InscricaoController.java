@@ -3,6 +3,7 @@ package br.com.eventvs.domain.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,7 @@ public class InscricaoController {
 	
 	@Autowired
 	private ParticipanteRepository participanteRepository;
-	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private GerenciarContaController gerenciarContaController;
 	
@@ -68,26 +66,24 @@ public class InscricaoController {
 			
 	}
 	
-	/*
+	/**
 	 * Retorna uma lista com as inscricoes do usuario
-	 * @param String email
+	 * @param email String
 	 * @return List<Inscricao>
 	 */
 	public List<Inscricao> listarInscricoesPeloUsuario(String email){
+		var pessoa = gerenciarContaController.login(email);
+		var participante = gerenciarContaController.loginParticipante(pessoa);
 
-		Optional<Participante> p  = participanteRepository.findByPessoaEmail(email);
-		if(p.isEmpty()) {
-			throw new EntidadeNaoEncontradaException("Participante não encontrado na base de dados.");
-		}   
-		List<Inscricao> lista = inscricaoRepository.findByParticipante(p.get())
+		List<Inscricao> lista = inscricaoRepository.findByParticipante(participante)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Participante não possui inscrições."));
-		return lista;
+		return lista.stream().filter(inscricao -> !inscricao.getIsCancelada()).collect(Collectors.toList());
 	}
 	
-	/*
+	/**
 	 * Retorna uma inscricao de um usuario
-	 * @param Integer inscricaoId 
-	 * @param String email
+	 * @param inscricaoId Integer
+	 * @param email String
 	 * @return Optional <Inscricao>
 	 */
 	public Inscricao visualizarInscricao(Integer inscricaoId, String email) {
@@ -99,10 +95,10 @@ public class InscricaoController {
 		return inscricao;
 	}
 	
-	/*
+	/**
 	 * Retorna uma lista com todas as inscricoes de um evento
-	 * @param Integer eventoId 
-	 * @param String email
+	 * @param eventoId Integer
+	 * @param email String
 	 * @return Optional<List<Inscricao>>
 	 */
 	public List<Inscricao> visualizarParticipantes(Integer eventoId, String email) {
@@ -121,7 +117,7 @@ public class InscricaoController {
 		return inscricoes;
 	}
 	
-	/***
+	/**
 	 * Cancela uma inscricao no banco de dados
 	 * @param inscricaoId
 	 * @param email
