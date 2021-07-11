@@ -17,7 +17,6 @@ import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
-import br.com.eventvs.domain.repository.ParticipanteRepository;
 
 @Service
 public class InscricaoController {
@@ -118,7 +117,7 @@ public class InscricaoController {
 	 * @param email
 	 */
 	public void cancelarInscricao(Integer inscricaoId, String email) {
-		Pessoa pessoa = gerenciarContaController.login(email);
+		gerenciarContaController.login(email);
 		
 		Inscricao inscricao = inscricaoRepository.findById(inscricaoId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Inscrição não encontrada na base de dados."));
