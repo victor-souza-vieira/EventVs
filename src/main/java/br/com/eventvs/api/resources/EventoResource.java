@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
 import javax.validation.Valid;
 
 import static br.com.eventvs.api.util.Paths.*;
