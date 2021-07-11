@@ -10,14 +10,12 @@ import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
-import br.com.eventvs.domain.repository.ParticipanteRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
