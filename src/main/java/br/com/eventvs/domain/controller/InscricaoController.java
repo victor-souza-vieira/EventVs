@@ -19,7 +19,6 @@ import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.EventoRepository;
 import br.com.eventvs.domain.repository.InscricaoRepository;
 import br.com.eventvs.domain.repository.ParticipanteRepository;
-import br.com.eventvs.domain.repository.PessoaRepository;
 
 @Service
 public class InscricaoController {
