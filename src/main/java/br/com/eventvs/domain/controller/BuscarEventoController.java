@@ -53,7 +53,8 @@ public class BuscarEventoController {
         return preencherResponse(eventos);
     }
     /**
-     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado menos os que o usuario já está inscrito).
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado) menos os que
+     * o participante já está inscrito.
      *
      * @param email String
      * @return List of EventoResponse
