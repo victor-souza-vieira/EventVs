@@ -38,13 +38,16 @@ public class InscricaoController {
 	/**
      * Cadastra uma inscricao
      *
+	 * @param email String
      * @param inscricaoRequest
      * @return Inscricao
      * @return null
      * */
-	public Inscricao cadastrarInscricao(InscricaoRequest inscricaoRequest) {
-		Participante participante = participanteRepository.findById(inscricaoRequest.getParticipante_id())
-				.orElseThrow(() -> new EntidadeNaoEncontradaException("Participante não encontrado na base de dados."));
+	public Inscricao cadastrarInscricao(String email, InscricaoRequest inscricaoRequest) {
+
+		var pessoa = gerenciarContaController.login(email);
+		var participante = gerenciarContaController.loginParticipante(pessoa);
+
 		Evento evento = eventoRepository.findById(inscricaoRequest.getEvento_id())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não encontrado na base de dados."));
 		
@@ -59,10 +62,7 @@ public class InscricaoController {
 		inscricao.setEvento(evento);
 		inscricao.setIsCancelada(false);
 		inscricao.setDataHora(LocalDateTime.now());
-		return inscricaoRepository.save(inscricao);		
-		
-		
-			
+		return inscricaoRepository.save(inscricao);
 	}
 	
 	/**
