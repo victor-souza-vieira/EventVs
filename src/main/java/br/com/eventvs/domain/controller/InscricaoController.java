@@ -13,7 +13,6 @@ import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.api.dto.requests.InscricaoRequest;
 import br.com.eventvs.domain.model.Evento;
 import br.com.eventvs.domain.model.Inscricao;
-import br.com.eventvs.domain.model.Participante;
 import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.EventoRepository;
@@ -28,9 +27,6 @@ public class InscricaoController {
 	
 	@Autowired
 	private EventoRepository eventoRepository;
-	
-	@Autowired
-	private ParticipanteRepository participanteRepository;
 
 	@Autowired
 	private GerenciarContaController gerenciarContaController;
@@ -53,7 +49,7 @@ public class InscricaoController {
 		
 		
 		//Checagem pra saber se a inscricao já existe
-		Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipante(evento, participante);
+		Optional<Inscricao> inscricao_existe = inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false);
 		if(inscricao_existe.isPresent()) {
 			throw new NegocioException("Participante já está inscrito nesse evento.");
 		}
