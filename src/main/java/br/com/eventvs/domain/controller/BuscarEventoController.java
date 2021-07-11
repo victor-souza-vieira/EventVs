@@ -65,7 +65,7 @@ public class BuscarEventoController {
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
 
-        eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipante(evento, participante).isPresent()).collect(Collectors.toList());
+        eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
 
         return preencherResponse(eventos);
     }
