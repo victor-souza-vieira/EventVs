@@ -63,8 +63,11 @@ public class BuscarEventoController {
      * */
     public List<EventoResponse> listarTodosPublicadosFiltro(String email){
         Pessoa pessoa = gerenciarContaController.login(email);
-        Participante participante = participanteRepository.findByPessoa(pessoa);
+
+        Participante participante = gerenciarContaController.loginParticipante(pessoa);
+
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
+
         List<Evento> eventos_aux = new ArrayList<Evento>();
         eventos_aux.addAll(eventos);
         for(Evento evento : eventos_aux){
