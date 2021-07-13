@@ -52,6 +52,10 @@ public class InscricaoController {
 		if(inscricao_existe.isPresent()) {
 			throw new NegocioException("Participante já está inscrito nesse evento.");
 		}
+		//Checagem para saber se a data de inicio do evento já passou
+		if(evento.getDataHoraInicio().isBefore(LocalDateTime.now())) {
+			throw new NegocioException("Não é possivel realizar inscrição no evento. O evento já iniciou.");
+		}
 		Inscricao inscricao = new Inscricao();
 		inscricao.setParticipante(participante);
 		inscricao.setEvento(evento);
@@ -124,7 +128,10 @@ public class InscricaoController {
 		if(!inscricao.getParticipante().getPessoa().getEmail().equals(email)) {
 			throw new NegocioException("Essa Inscrição não pertence ao participante.");
 		}
-		
+		//Checagem se a data do evento já passou
+		if(inscricao.getEvento().getDataHoraInicio().isBefore(LocalDateTime.now())) {
+			throw new NegocioException("Não é possível cancelar a inscrição, pois o evento já iniciou.");
+		}
 		inscricao.setIsCancelada(true);
 		inscricaoRepository.save(inscricao);
 	}
