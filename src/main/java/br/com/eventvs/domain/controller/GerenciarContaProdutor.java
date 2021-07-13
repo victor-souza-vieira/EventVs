@@ -19,10 +19,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class GerenciarContaProdutor {
-
-    @Autowired
-    private PessoaController pessoaController;
-
     @Autowired
     private ProdutorRepository produtorRepository;
 
@@ -36,7 +32,7 @@ public class GerenciarContaProdutor {
      * @return ProdutorResponse - {@link ProdutorResponse}
      * */
     public ProdutorResponse cadastrarProdutor(PessoaCadastroRequest pessoaCadastroRequest){
-        var novaPessoa = pessoaController.cadastrarPessoa(pessoaCadastroRequest);
+        var novaPessoa = gerenciarContaController.cadastrarPessoa(pessoaCadastroRequest);
 
         Produtor novoProdutor = new Produtor();
         novoProdutor.setPessoa(novaPessoa);
