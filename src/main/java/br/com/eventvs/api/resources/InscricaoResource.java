@@ -48,7 +48,8 @@ public class InscricaoResource {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<InscricaoResponse> realizarInscricao(@Valid @RequestBody InscricaoRequest inscricaoRequest) {
-		Inscricao inscricao = inscricaoController.cadastrarInscricao(inscricaoRequest);
+		String email = eventvsSecurity.getPessoaEmail();
+		Inscricao inscricao = inscricaoController.cadastrarInscricao(email, inscricaoRequest);
 		if(inscricao!= null) {
 			return ResponseEntity.ok(toModel(inscricao));
 		}

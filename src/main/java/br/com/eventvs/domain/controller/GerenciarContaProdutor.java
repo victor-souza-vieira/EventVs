@@ -56,7 +56,7 @@ public class GerenciarContaProdutor {
      *
      * */
     public ProdutorResponse aceitarCadastroProdutor(String emailAdministrador, Integer produtorId){
-        Pessoa pessoaLogada = gerenciarContaController.loginProdutor(emailAdministrador);
+        Pessoa pessoaLogada = gerenciarContaController.login(emailAdministrador);
         gerenciarContaController.loginAdministrador(pessoaLogada);
 
         Produtor produtor = produtorRepository.findByPessoaId(produtorId).orElseThrow(() -> {
@@ -78,7 +78,7 @@ public class GerenciarContaProdutor {
      *
      * */
     public ProdutorResponse recusarCadastroProdutor(String emailAdministrador, Integer produtorId){
-        Pessoa pessoaLogada = gerenciarContaController.loginProdutor(emailAdministrador);
+        Pessoa pessoaLogada = gerenciarContaController.login(emailAdministrador);
         gerenciarContaController.loginAdministrador(pessoaLogada);
 
         Produtor produtor = produtorRepository.findByPessoaId(produtorId).orElseThrow(() -> {
@@ -99,7 +99,7 @@ public class GerenciarContaProdutor {
      *
      * */
     public List<ProdutorResponse> listarSolicitacoesContas(String emailAdministrador){
-        Pessoa pessoaLogada = gerenciarContaController.loginProdutor(emailAdministrador);
+        Pessoa pessoaLogada = gerenciarContaController.login(emailAdministrador);
         gerenciarContaController.loginAdministrador(pessoaLogada);
 
         List<Produtor> produtores = produtorRepository.findAllBySituacao(Situacao.SOLICITADO);

@@ -1,20 +1,20 @@
 package br.com.eventvs.domain.controller;
 
-
 import br.com.eventvs.api.dto.requests.EventoRequest;
 import br.com.eventvs.api.dto.responses.EventoResponse;
 import br.com.eventvs.domain.enums.StatusEvento;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
 import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
-import br.com.eventvs.domain.repository.CategoriaRepository;
 import br.com.eventvs.domain.repository.EventoRepository;
+import br.com.eventvs.domain.repository.InscricaoRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BuscarEventoController {
@@ -23,7 +23,7 @@ public class BuscarEventoController {
     private EventoRepository eventoRepository;
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private GerenciarCategoriaController gerenciarCategoriaController;
 
     @Autowired
     private GerenciarContaController gerenciarContaController;
@@ -31,6 +31,8 @@ public class BuscarEventoController {
     @Autowired
     private ProdutorRepository produtorRepository;
 
+    @Autowired
+    private InscricaoRepository inscricaoRepository;
 
     /**
      * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado).
@@ -40,9 +42,43 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicados(String email){
-        gerenciarContaController.loginProdutor(email);
+        var pessoa = gerenciarContaController.login(email);
+
+        var produtor = produtorRepository.findByPessoa(pessoa);
+
+        List<Evento> eventos;
+        //Fluxo de produtor
+        if(produtor != null) {
+            eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.PUBLICADO, produtor);
+            return preencherResponse(eventos);
+        }
+
+        //Fluxo de participante
+        var participante = gerenciarContaController.loginParticipante(pessoa);
+        if(participante != null){
+            eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
+            eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
+            return preencherResponse(eventos);
+        }
+
+        return new ArrayList<>();
+    }
+    /**
+     * Método responsável por retornar todos os eventos Publicados ({@link StatusEvento} publicado) menos os que
+     * o participante já está inscrito.
+     *
+     * @param email String
+     * @return List of EventoResponse
+     *
+     * */
+    public List<EventoResponse> listarTodosPublicadosFiltro(String email){
+        Pessoa pessoa = gerenciarContaController.login(email);
+
+        Participante participante = gerenciarContaController.loginParticipante(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEvento(StatusEvento.PUBLICADO);
+
+        eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
 
         return preencherResponse(eventos);
     }
@@ -58,17 +94,28 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosPorCategoria(String email, Integer categoriaId){
-        gerenciarContaController.loginProdutor(email);
+        var pessoa = gerenciarContaController.login(email);
 
-        Categoria categoria = buscarCategoria(categoriaId);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
-        List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
+        Categoria categoria = gerenciarCategoriaController.buscarCategoria(categoriaId);
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados para a categoria informada.");
+        List<Evento> eventos;
+        //Fluxo de produtor
+        if(produtor != null) {
+            eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.PUBLICADO, categoria, produtor);
+            return preencherResponse(eventos);
         }
 
-        return preencherResponse(eventos);
+        //Fluxo de participante
+        var participante = gerenciarContaController.loginParticipante(pessoa);
+        if(participante != null){
+            eventos = eventoRepository.findAllByStatusEventoAndCategoria(StatusEvento.PUBLICADO, categoria);
+            eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
+            return preencherResponse(eventos);
+        }
+
+        return new ArrayList<>();
     }
 
 
@@ -83,15 +130,11 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicados(String email){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        Pessoa pessoa = gerenciarContaController.login(email);
 
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndProdutor(StatusEvento.CRIADO, produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado.");
-        }
 
         return preencherResponse(eventos);
     }
@@ -108,17 +151,13 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosPorCategoria(String email, Integer categoriaId){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        Pessoa pessoa = gerenciarContaController.login(email);
 
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
-        Categoria categoria = buscarCategoria(categoriaId);
+        Categoria categoria = gerenciarCategoriaController.buscarCategoria(categoriaId);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndCategoriaAndProdutor(StatusEvento.CRIADO, categoria, produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui nenhum evento não publicado com a categoria informada.");
-        }
 
         return preencherResponse(eventos);
     }
@@ -135,15 +174,11 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosPorNome(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        Pessoa pessoa = gerenciarContaController.login(email);
 
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.CRIADO, eventoRequest.getNome(), produtor);
-
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com este nome.");
-        }
 
         return preencherResponse(eventos);
     }
@@ -159,22 +194,24 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosPorNome(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        var pessoa = gerenciarContaController.login(email);
 
-        Produtor produtor = produtorRepository.findByPessoa(pessoa);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
         List<Evento> eventos;
         if (produtor != null){
             eventos = eventoRepository.findAllByStatusEventoAndNomeContainsAndProdutor(StatusEvento.PUBLICADO, eventoRequest.getNome(), produtor);
-        }else {
+            return preencherResponse(eventos);
+        }
+
+        var participante = gerenciarContaController.loginParticipante(pessoa);
+        if(participante != null){
             eventos = eventoRepository.findAllByStatusEventoAndNomeContains(StatusEvento.PUBLICADO, eventoRequest.getNome());
+            eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
+            return preencherResponse(eventos);
         }
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados que contenham este nome.");
-        }
-
-        return preencherResponse(eventos);
+        return new ArrayList<>();
     }
 
     /**
@@ -188,22 +225,24 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosPublicadosEntreDatas(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        var pessoa = gerenciarContaController.login(email);
 
-        Produtor produtor = produtorRepository.findByPessoa(pessoa);
+        var produtor = produtorRepository.findByPessoa(pessoa);
 
         List<Evento> eventos;
         if (produtor != null){
             eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetweenAndProdutor(StatusEvento.PUBLICADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim(), produtor);
-        }else {
+            return preencherResponse(eventos);
+        }
+
+        var participante = gerenciarContaController.loginParticipante(pessoa);
+        if(participante != null){
             eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetween(StatusEvento.PUBLICADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim());
+            eventos = eventos.stream().filter(evento -> !inscricaoRepository.findByEventoAndParticipanteAndIsCancelada(evento, participante, false).isPresent()).collect(Collectors.toList());
+            return preencherResponse(eventos);
         }
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("Não existem eventos publicados entre essas datas.");
-        }
-
-        return preencherResponse(eventos);
+        return new ArrayList<>();
     }
 
     /**
@@ -218,21 +257,26 @@ public class BuscarEventoController {
      *
      * */
     public List<EventoResponse> listarTodosNaoPublicadosEntreDatas(String email, EventoRequest eventoRequest){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        Pessoa pessoa = gerenciarContaController.login(email);
 
         Produtor produtor = gerenciarContaController.loginProdutor(pessoa);
 
         List<Evento> eventos = eventoRepository.findAllByStatusEventoAndDataHoraInicioBetweenAndProdutor(StatusEvento.CRIADO, eventoRequest.getDataHoraInicio(), eventoRequest.getDataHoraFim() ,produtor);
 
-        if (eventos.isEmpty()){
-            throw new EntidadeNaoEncontradaException("O produtor não possui eventos não publicados com entre estas datas.");
-        }
-
         return preencherResponse(eventos);
     }
 
+
+    /**
+     * Método responsável por retornar um evento pelo seu identificador.
+     *
+     * @throws EntidadeNaoEncontradaException
+     * @param email String
+     * @param eventoId Integer
+     * @return {@link EventoResponse}
+     * */
     public EventoResponse listarPorId(String email, Integer eventoId){
-        Pessoa pessoa = gerenciarContaController.loginProdutor(email);
+        Pessoa pessoa = gerenciarContaController.login(email);
 
         Produtor produtor = produtorRepository.findByPessoa(pessoa);
 
@@ -263,7 +307,7 @@ public class BuscarEventoController {
             EventoResponse eventoResponse = new EventoResponse();
             eventoResponse.setId(e.getId());
             eventoResponse.setNome(e.getNome());
-            eventoResponse.setCategoria(e.getCategoria().getNome());
+            eventoResponse.setCategoria(e.getCategoria());
             eventoResponse.setStatusEvento(e.getStatusEvento().name());
             eventoResponse.setDescricao(e.getDescricao());
             eventoResponse.setDataHoraFim(e.getDataHoraFim());
@@ -285,7 +329,7 @@ public class BuscarEventoController {
         EventoResponse eventoResponse = new EventoResponse();
         eventoResponse.setId(evento.getId());
         eventoResponse.setNome(evento.getNome());
-        eventoResponse.setCategoria(evento.getCategoria().getNome());
+        eventoResponse.setCategoria(evento.getCategoria());
         eventoResponse.setStatusEvento(evento.getStatusEvento().name());
         eventoResponse.setDescricao(evento.getDescricao());
         eventoResponse.setDataHoraFim(evento.getDataHoraFim());
@@ -294,20 +338,5 @@ public class BuscarEventoController {
         eventoResponse.setProdutor(evento.getProdutor().getPessoa().getNome());
         return eventoResponse;
     }
-
-    /**
-     * Buscar uma categoria pelo id caso não encontre lança uma {@link NegocioException}
-     *
-     * @param categoriaId Integer
-     * @return Categoria
-     * @throws NegocioException
-     * */
-    private Categoria buscarCategoria(Integer categoriaId) {
-        return categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> {
-                    throw new EntidadeNaoEncontradaException("Não existe categoria cadastrada com o id "+ categoriaId);
-                });
-    }
-
 
 }
