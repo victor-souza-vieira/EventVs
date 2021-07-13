@@ -108,7 +108,7 @@ public class InscricaoController {
 		List<Inscricao> inscricoes = inscricaoRepository.findByEvento(evento)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Evento não possui Participantes."));
 
-		return inscricoes;
+		return inscricoes.stream().filter(inscricao -> !inscricao.getIsCancelada()).collect(Collectors.toList());
 	}
 	
 	/**
