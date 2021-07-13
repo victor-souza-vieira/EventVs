@@ -84,6 +84,7 @@ o seguinte trecho: <br />
 - [x] Listar solicitações de contas produtores.
 - [x] Listar eventos publicados com base nos filtros(apenas um filtro por vez).
 - [x] Listar eventos não publicados com base nos filtros(apenas um filtro por vez).
+- [x] Alterar Dados de uma Pessoa
 
 ### Endpoints prontos
 
@@ -117,3 +118,4 @@ Listar todos eventos não publicados entre duas datas | /eventos/nao-publicados/
 Aceitar conta de produtor | /produtores/{produtorId}/aceitar | GET | 200 - 400 - 404
 Recusar conta de produtor | /produtores/{produtorId}/recusar | GET | 200 - 400 - 404
 Listar solicitações de conta de produtores | /produtores/solicitados | GET | 200 - 400 - 404
+Alterar dados de uma Pessoa | /pessoas | PATCH | 200 - 401

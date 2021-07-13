@@ -14,10 +14,9 @@ public class CadastrarContaParticipanteController {
     @Autowired
     private ParticipanteRepository participanteRepository;
 
+
     @Autowired
-    private PessoaController pessoaController;
-
-
+    private GerenciarContaController gerenciarContaController;
 
     /**
      * Método responsável pro cadastrar um participante no banco de dados
@@ -26,7 +25,7 @@ public class CadastrarContaParticipanteController {
      * @return participanteResponse
      * */
     public ParticipanteResponse cadastrarParticipante(PessoaCadastroRequest pessoaCadastroRequest){
-        var novaPessoa = pessoaController.cadastrarPessoa(pessoaCadastroRequest);
+        var novaPessoa = gerenciarContaController.cadastrarPessoa(pessoaCadastroRequest);
 
         Participante novoParticipante = new Participante();
         novoParticipante.setPessoa(novaPessoa);
