@@ -52,6 +52,7 @@ public class GerenciarEventoController {
 		Endereco endereco = enderecoControler.salvarEndereco(eventoRequest.getEndereco());
 
 		Evento evento = new Evento();
+		evento.setId(eventoRequest.getId());
 		evento.setNome(eventoRequest.getNome());
 		evento.setDescricao(eventoRequest.getDescricao());
 		evento.setDataHoraInicio(eventoRequest.getDataHoraInicio());
@@ -86,28 +87,9 @@ public class GerenciarEventoController {
 		if(evento.getStatusEvento().equals(StatusEvento.PUBLICADO)) {
 			throw new NegocioException("Não é permitido editar um evento Publicado");
 		}
-		
-		if(!eventoRequest.getNome().isEmpty()) {
-			evento.setNome(eventoRequest.getNome());
-		}
-		if(!(eventoRequest.getDataHoraFim() == null)) {
-			evento.setDataHoraFim(eventoRequest.getDataHoraFim());
-		}
-		if(!(eventoRequest.getDataHoraInicio() == null)) {
-			evento.setDataHoraInicio(eventoRequest.getDataHoraInicio());
-		}
-		if(!eventoRequest.getDescricao().isEmpty()) {
-			evento.setDescricao(eventoRequest.getDescricao());
-		}
-		if(!(eventoRequest.getEndereco() == null)) {
-			evento.setEndereco(eventoRequest.getEndereco());
-		}
-		if(!(eventoRequest.getStatusEvento() == null)) {
-			evento.setStatusEvento(eventoRequest.getStatusEvento());
-		}
-		
-		evento = eventoRepository.save(evento);
-		return preencherResponse(evento);
+
+		eventoRequest.setId(evento.getId());
+		return criarEvento(eventoRequest, email);
 	}
 	
 	/**
