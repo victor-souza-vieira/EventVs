@@ -6,6 +6,7 @@ import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.*;
 import br.com.eventvs.domain.repository.CategoriaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -179,6 +180,10 @@ public class GerenciarEventoController {
 
 		if(evento.getNome() == null){
 			throw new NegocioException("É necessário que o evento possua um nome.");
+		}
+		
+		if(!evento.getDataHoraInicio().isAfter(LocalDateTime.now().plusDays(5))){
+			throw new NegocioException("É necessário um período de tempo de 5 dias entre a data de publicação e a data de início do evento.");
 		}
 	}
 
