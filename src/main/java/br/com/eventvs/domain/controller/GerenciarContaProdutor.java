@@ -1,11 +1,9 @@
 package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.api.dto.requests.PessoaCadastroRequest;
-import br.com.eventvs.api.dto.requests.ProdutorCadastroRequest;
 import br.com.eventvs.api.dto.responses.ProdutorResponse;
 import br.com.eventvs.domain.enums.Situacao;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
-import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.ProdutorRepository;
