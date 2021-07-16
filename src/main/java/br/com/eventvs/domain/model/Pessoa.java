@@ -1,6 +1,5 @@
 package br.com.eventvs.domain.model;
 
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

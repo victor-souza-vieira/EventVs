@@ -1,6 +1,7 @@
 package br.com.eventvs.core.security.domain;
 
 import br.com.eventvs.domain.enums.Situacao;
+import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Participante;
 import br.com.eventvs.domain.model.Pessoa;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class JpaUserDetailService implements UserDetailsService {
@@ -31,8 +34,9 @@ public class JpaUserDetailService implements UserDetailsService {
     AdministradorRepository administradorRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Pessoa pessoa = pessoaRepository.findByEmail(email).orElseThrow(() -> {throw new UsernameNotFoundException("E-mail ou senha incorreto.");});
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, NegocioException {
+        Pessoa pessoa = pessoaRepository.findByEmail(email).orElseThrow(() -> {
+            throw new UsernameNotFoundException("E-mail ou senha incorreto.");});
 
         String role = "";
 
@@ -48,11 +52,12 @@ public class JpaUserDetailService implements UserDetailsService {
             return new AuthPessoa(pessoa, role);
         }
 
-        Produtor produtor = produtorRepository.findByPessoaAndSituacao(pessoa, Situacao.ACEITO).orElseThrow(()->{throw new UsernameNotFoundException("Sua conta ainda não foi aprovada por um administrador.");});
-        if (produtor != null) {
+        Optional<Produtor> produtor = produtorRepository.findByPessoaAndSituacao(pessoa, Situacao.ACEITO);
+        if (produtor.isPresent()) {
             role = "PRODUTOR";
             return new AuthPessoa(pessoa, role);
+        }else{
+            throw new NegocioException("Sua conta ainda não foi aprovada por um administrador");
         }
-        return new AuthPessoa(pessoa, role);
     }
 }

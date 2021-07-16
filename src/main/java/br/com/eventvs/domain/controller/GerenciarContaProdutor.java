@@ -1,11 +1,9 @@
 package br.com.eventvs.domain.controller;
 
 import br.com.eventvs.api.dto.requests.PessoaCadastroRequest;
-import br.com.eventvs.api.dto.requests.ProdutorCadastroRequest;
 import br.com.eventvs.api.dto.responses.ProdutorResponse;
 import br.com.eventvs.domain.enums.Situacao;
 import br.com.eventvs.domain.exception.EntidadeNaoEncontradaException;
-import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Pessoa;
 import br.com.eventvs.domain.model.Produtor;
 import br.com.eventvs.domain.repository.ProdutorRepository;
@@ -19,10 +17,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class GerenciarContaProdutor {
-
-    @Autowired
-    private PessoaController pessoaController;
-
     @Autowired
     private ProdutorRepository produtorRepository;
 
@@ -36,7 +30,7 @@ public class GerenciarContaProdutor {
      * @return ProdutorResponse - {@link ProdutorResponse}
      * */
     public ProdutorResponse cadastrarProdutor(PessoaCadastroRequest pessoaCadastroRequest){
-        var novaPessoa = pessoaController.cadastrarPessoa(pessoaCadastroRequest);
+        var novaPessoa = gerenciarContaController.cadastrarPessoa(pessoaCadastroRequest);
 
         Produtor novoProdutor = new Produtor();
         novoProdutor.setPessoa(novaPessoa);

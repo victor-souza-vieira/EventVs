@@ -1,5 +1,7 @@
 package br.com.eventvs.domain.controller;
 
+import br.com.eventvs.api.dto.requests.PessoaCadastroRequest;
+import br.com.eventvs.api.dto.responses.PessoaResponse;
 import br.com.eventvs.domain.exception.NegocioException;
 import br.com.eventvs.domain.model.Administrador;
 import br.com.eventvs.domain.model.Participante;
@@ -10,6 +12,7 @@ import br.com.eventvs.domain.repository.ParticipanteRepository;
 import br.com.eventvs.domain.repository.PessoaRepository;
 import br.com.eventvs.domain.repository.ProdutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +30,78 @@ public class GerenciarContaController {
     @Autowired
     private ParticipanteRepository participanteRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    /**
+     * Método responsável por cadastrar uma pessoa.
+     *
+     * @param pessoaRequest
+     * @return Pessoa
+     *
+     * */
+    public Pessoa cadastrarPessoa(PessoaCadastroRequest pessoaRequest){
+        checarCPFExistenteThrows(pessoaRequest);
+
+        checarEmailExistenteThrows(pessoaRequest);
+
+        var novaPessoa = new Pessoa();
+        novaPessoa.setCpf(pessoaRequest.getCpf());
+        novaPessoa.setEmail(pessoaRequest.getEmail());
+        novaPessoa.setNome(pessoaRequest.getNome());
+        novaPessoa.setSenha(passwordEncoder.encode(pessoaRequest.getSenha()));
+
+        return pessoaRepository.save(novaPessoa);
+    }
+    
+    /**
+     * Método responsável por alterar os dados uma pessoa.
+     *
+     * @param pessoaRequest
+     * @param email
+     * @return Pessoa
+     *
+     * */
+    public PessoaResponse alterarDados(PessoaCadastroRequest pessoaRequest, String email) {
+    	Pessoa pessoa = login(email);
+    	if(pessoaRequest.getSenha() != null) {
+    		pessoa.setSenha(passwordEncoder.encode(pessoaRequest.getSenha()));
+    	}
+    	if(pessoaRequest.getNome() != null) {
+    		pessoa.setNome(pessoaRequest.getNome());
+    	}
+    	pessoaRepository.save(pessoa);
+    	PessoaResponse pessoaResponse = new PessoaResponse();
+    	pessoaResponse.setNome(pessoa.getNome());
+    	return pessoaResponse;
+    }
+
+    /**
+     * Checa se um email existe na base de dados, caso exista, lança exceção.
+     *
+     * @param pessoaRequest PessoaCadastroRequest
+     * @throws NegocioException
+     * */
+    private void checarEmailExistenteThrows(PessoaCadastroRequest pessoaRequest) {
+        pessoaRepository.findByEmail(pessoaRequest.getEmail())
+                .ifPresent((pessoa) -> {
+                    throw new NegocioException("Já existe uma pessoa cadastrada com este EMAIL");
+                });
+    }
+
+    /**
+     * Checa se um CPF existe na base de dados, caso exista, lança exceção.
+     *
+     * @param pessoaRequest PessoaCadastroRequest
+     * @throws NegocioException
+     * */
+    private void checarCPFExistenteThrows(PessoaCadastroRequest pessoaRequest) {
+        pessoaRepository.findByCpf(pessoaRequest.getCpf())
+                .ifPresent((pessoa) -> {
+                    throw new NegocioException("Já existe uma pessoa cadastrada com esse CPF na base de dados");
+                });
+    }
+    
     /**
      * Método responsável por verificar se uma pessoa realmente existe no banco de dados
      * para autorizar o acesso aos endpoints que o utilizem.

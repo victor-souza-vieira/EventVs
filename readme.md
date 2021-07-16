@@ -7,16 +7,10 @@ A seguir virão alguns pontos importante a respeito do desenvolvimento do projet
 
 ### Como executar o projeto
 1. É necessário ter o java na versão 11 instalado.
-1. É necessário possuir algum servidor local na máquina.
+1. É necessário possuir algum servidor local ou um container <a href="#docker">docker </a>
 1. É necessário iniciar o serviço apache e o mysql na máquina.
 1. É preciso baixar as dependências do projeto utilizando o Maven ``` mvn clean install ```
 1. Após esses passos basta executar a classe ``` EventvsApplication.java ``` ou executar no terminal `mvn spring-boot:run`
-
-### Recomendações
-1. Utilizar o servidor local ``` XAMP ```
-1. Utilizar o IDE ``` Intellij Community ```
-
-Apesar das recomendações, fique a vontade para utilizar o servidor local e IDE da sua preferência.
 
 ### Estrutura do código
 
@@ -27,12 +21,20 @@ O pacote ``` domain/controller``` contém todos os controladores que orquestram 
 O pacote ``` domain/enums``` contém todos os enumeradores que serão utilizados no domínio. <br />
 O pacote ``` domain/exception``` contém as classes que representam os Tipos de erros encontrados no domínio. <br />
 No pacote ``` api``` ficam todos os arquivos responsáveis pelo funcionamento da API. <br />
-O pacote ``` api/resources``` contém todos os arquivos responsáveis pelo atendimento às requisições. HTTP <br />
+O pacote ``` api/resources``` contém todos os arquivos responsáveis pelo atendimento às requisições HTTP. <br />
 O pacote ``` api/util``` contém todos os arquivos que terão alguma utilidade, mas não se encaixam em outro pacote. <br />
 O pacote ``` api/dto``` contém todos os DTO's (Data Transfers Objects) utilizados para comunicação. <br />
 O pacote ``` api/dto/requests``` contém todos os DTO's especializados nas ***requests***.  <br />
-O pactote ``` api/dto/responses``` contém todos os DTO'S especializados nas ***responses***. <br />
-O pactote ``` api/exceptionhandler``` contém as classes que lidam com o tratamento de exceções encontrados na camada de domínio. <br />
+O pacote ``` api/dto/responses``` contém todos os DTO'S especializados nas ***responses***. <br />
+O pacote ``` api/exceptionhandler``` contém as classes que lidam com o tratamento de exceções encontrados na camada de domínio. <br />
+O pacote ```core``` é onde estão localizado a parte relacionada ao _spring-security_ e ao _model-mapper_. <br />
+O pacote ``core/ModelMapper`` contém a classe responsável pelo mapeamento de alguns objetos utilizados na aplicação. <br />
+O pacote ``core/security`` contém todos os arquivos necessários para realizar a segurança da aplicação no contexto spring-security. <br />
+O pacote ``core/security/Authorization`` detem o servidor de autorização das requisições do _back-end_. <br />
+O pacote ``core/security/Resource`` permite ou revoga o acesso aos recursos da aplicação. <br />
+O pacote ``core/security/Resource`` permite ou revoga o acesso aos recursos da aplicação. <br />
+O pacote ``core/security/Resource`` permite ou revoga o acesso aos recursos da aplicação. <br />
+O pacote ``core/security/domain`` contém os arquivos relacionados ao esquema de login na aplicação.<br />
 
 
 
@@ -84,6 +86,7 @@ o seguinte trecho: <br />
 - [x] Listar solicitações de contas produtores.
 - [x] Listar eventos publicados com base nos filtros(apenas um filtro por vez).
 - [x] Listar eventos não publicados com base nos filtros(apenas um filtro por vez).
+- [x] Alterar Dados de uma Pessoa
 
 ### Endpoints prontos
 
@@ -117,3 +120,33 @@ Listar todos eventos não publicados entre duas datas | /eventos/nao-publicados/
 Aceitar conta de produtor | /produtores/{produtorId}/aceitar | GET | 200 - 400 - 404
 Recusar conta de produtor | /produtores/{produtorId}/recusar | GET | 200 - 400 - 404
 Listar solicitações de conta de produtores | /produtores/solicitados | GET | 200 - 400 - 404
+Alterar dados de uma Pessoa | /pessoas | PATCH | 200 - 401
+
+<a id="docker"> </a>
+
+### Docker-compose.yml
+Conteudo do arquivo para o container caso queira utilizar o docker
+
+````
+   version: '3.3'
+   volumes:
+   data:
+   services:
+   db:
+   image: mysql:5.6
+   ports:
+   - "3306:3306"
+   volumes:
+   - ./mysql_data:/var/lib/mysql
+   environment:
+   - MYSQL_ROOT_PASSWORD=password
+   - MYSQL_DATABASE=eventvs
+   app:
+   image: phpmyadmin/phpmyadmin:latest
+   links:
+   - db
+   ports:
+   - 80:80
+   environment:
+   - PMA_ARBITRARY=1
+````

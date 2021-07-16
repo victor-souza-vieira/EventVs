@@ -28,7 +28,6 @@ public class Paths {
     public static final String PATH_EVENTO_ID = "/{eventoId}";
     public static final String PATH_EVENTO_ID_CANCELAR = "/{eventoId}/cancelar";
     public static final String PATH_EVENTO_ID_PUBLICAR = "/{eventoId}/publicar";
-    public static final String PATH_EVENTOS_ID_EXCLUIR = "/{eventoId}/excluir";
     public static final String PATH_EVENTOS_PUBLICADOS = "/publicados";
     public static final String PATH_EVENTOS_PUBLICADOS_FILTRO = "/publicados_filtro";
     public static final String PATH_EVENTOS_PUBLICADOS_POR_CATEGORIA = PATH_EVENTOS_PUBLICADOS + "/categoria/{categoriaId}";
